@@ -78,11 +78,19 @@ hkbCharacterData * CharacterFile::getCharacterData() const{
     return nullptr;
 }
 
-QStringList CharacterFile::getRigBoneNames() const{
-    //std::lock_guard <std::mutex> guard(mutex);
-    QStringList names;
-    (skeleton) ? names = skeleton->getBonesFromSkeletonAt(0) : LogFile::writeToLog(": CharacterFile: 'skeleton' is nullptr!");
-    return names;
+QStringList CharacterFile::getRigBoneNames() const
+{
+    if (skeleton == nullptr)
+    {
+        LogFile::writeToLog(": CharacterFile: 'skeleton' is nullptr!");
+        return {};
+    }
+    const int rigIndex = skeleton->getRigSkeletonIndex();
+    if (rigIndex == -1)
+    {
+        return {};
+    }
+    return skeleton->getBonesFromSkeletonAt(rigIndex);
 }
 
 int CharacterFile::getNumberOfBones(bool ragdoll) const{
@@ -100,11 +108,19 @@ QString CharacterFile::getRagdollName() const{
     return name;
 }
 
-QStringList CharacterFile::getRagdollBoneNames() const{
-    //std::lock_guard <std::mutex> guard(mutex);
-    QStringList names;
-    (skeleton) ? names = skeleton->getBonesFromSkeletonAt(1) : LogFile::writeToLog(": CharacterFile: 'skeleton' is nullptr!");
-    return names;
+QStringList CharacterFile::getRagdollBoneNames() const
+{
+    if (skeleton == nullptr)
+    {
+        LogFile::writeToLog(": CharacterFile: 'skeleton' is nullptr!");
+        return {};
+    }
+    const int rigIndex = skeleton->getRagdollSkeletonIndex();
+    if (rigIndex == -1)
+    {
+        return {};
+    }
+    return skeleton->getBonesFromSkeletonAt(rigIndex);
 }
 
 QStringList CharacterFile::getAnimationNames() const{

@@ -71,6 +71,38 @@ QStringList SkeletonFile::getLocalFrameNames() const{
     return names;
 }
 
+int SkeletonFile::getRagdollSkeletonIndex() const
+{
+    for (int index = 0; index < skeletons.size(); ++index)
+    {
+        hkaSkeleton* skeleton = static_cast<hkaSkeleton*>(skeletons[index].data());
+        if (!skeleton->bones.empty())
+        {
+	        if (skeleton->bones.first().name.contains("Ragdoll"))
+	        {
+                return index;
+	        }
+        }
+    }
+    return -1;
+}
+
+int SkeletonFile::getRigSkeletonIndex() const
+{
+    for (int index = 0; index < skeletons.size(); ++index)
+    {
+        hkaSkeleton* skeleton = static_cast<hkaSkeleton*>(skeletons[index].data());
+        if (!skeleton->bones.empty())
+        {
+            if (!skeleton->bones.first().name.contains("Ragdoll"))
+            {
+                return index;
+            }
+        }
+    }
+    return -1;
+}
+
 hkaSkeleton *SkeletonFile::getSkeleton(bool isragdoll) const{
     //std::lock_guard <std::mutex> guard(mutex);
     if (!skeletons.isEmpty()){

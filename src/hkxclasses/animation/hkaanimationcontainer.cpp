@@ -52,8 +52,8 @@ bool hkaAnimationContainer::write(HkxXMLWriter *writer){
         QStringList list1 = {writer->name, writer->clas, writer->signature};
         QStringList list2 = {getReferenceString(), getClassname(), "0x"+QString::number(getSignature(), 16)};
         writer->writeLine(writer->object, list1, list2, "");
-        list1 = {writer->name, writer->numelements};
-        list2 = {"skeletons", QString::number(skeletons.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"skeletons", QString::number(skeletons.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         QString refs;
         for (auto i = 0; i < skeletons.size(); i++){
@@ -65,14 +65,14 @@ bool hkaAnimationContainer::write(HkxXMLWriter *writer){
         if (skeletons.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list1 = {writer->name, writer->numelements};
-        list2 = {"animations", "0"};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"animations", "0"};
         writer->writeLine(writer->parameter, list1, list2, " ");
-        list2 = {"bindings", "0"};
+        list2 = QStringList{"bindings", "0"};
         writer->writeLine(writer->parameter, list1, list2, " ");
-        list2 = {"attachments", "0"};
+        list2 = QStringList{"attachments", "0"};
         writer->writeLine(writer->parameter, list1, list2, " ");
-        list2 = {"skins", "0"};
+        list2 = QStringList{"skins", "0"};
         writer->writeLine(writer->parameter, list1, list2, " ");
         writer->writeLine(writer->object, false);
         setIsWritten();

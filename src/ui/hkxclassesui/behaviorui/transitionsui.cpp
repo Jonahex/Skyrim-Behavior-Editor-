@@ -466,7 +466,7 @@ void TransitionsUI::setCondition(){
 
 void TransitionsUI::setEventId(int index, const QString &name){
     if (bsData){
-        bsData->eventId = --index;
+        bsData->eventId = index;
         (name != "") ? table->item(EVENT_ID_ROW, VALUE_COLUMN)->setText(name) : LogFile::writeToLog("TransitionsUI::setEventId(): The event name is nullptr!!");
         parentObj->setIsFileChanged(true);
     }else{

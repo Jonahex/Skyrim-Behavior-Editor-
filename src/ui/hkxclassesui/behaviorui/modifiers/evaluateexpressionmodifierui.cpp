@@ -74,7 +74,7 @@ void EvaluateExpressionModifierUI::toggleSignals(bool toggleconnections){
     if (toggleconnections){
         connect(name, SIGNAL(textEdited(QString)), this, SLOT(setName(QString)), Qt::UniqueConnection);
         connect(enable, SIGNAL(released()), this, SLOT(setEnable()), Qt::UniqueConnection);
-        connect(table, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(viewSelectedChild(int,int)), Qt::UniqueConnection);
+        connect(table, &QTableWidget::cellDoubleClicked, this, &EvaluateExpressionModifierUI::viewSelectedChild, Qt::UniqueConnection);
         connect(expressionUI, SIGNAL(viewEvents(int,QString,QStringList)), this, SIGNAL(viewEvents(int,QString,QStringList)), Qt::UniqueConnection);
         connect(expressionUI, SIGNAL(viewVariables(int,QString,QStringList)), this, SIGNAL(viewVariables(int,QString,QStringList)), Qt::UniqueConnection);
         connect(expressionUI, SIGNAL(returnToParent()), this, SLOT(returnToWidget()), Qt::UniqueConnection);
@@ -90,9 +90,11 @@ void EvaluateExpressionModifierUI::toggleSignals(bool toggleconnections){
 
 void EvaluateExpressionModifierUI::addExpression(){
     if (bsData){
-        auto exps = bsData->getExpressions();
-        (!exps) ? bsData->setExpressions(new hkbExpressionDataArray(bsData->getParentFile())) : NULL;
-        exps->addExpression();
+        if (!bsData->getExpressions())
+        {
+            bsData->setExpressions(new hkbExpressionDataArray(bsData->getParentFile()));
+        }
+        bsData->getExpressions()->addExpression();
         loadDynamicTableRows();
     }else{
         LogFile::writeToLog("EvaluateExpressionModifierUI::addExpression(): The data is nullptr!!");
@@ -283,4 +285,3 @@ void EvaluateExpressionModifierUI::variableRenamed(const QString & name, int ind
         LogFile::writeToLog("EvaluateExpressionModifierUI::variableRenamed(): The data is nullptr!!");
     }
 }
-

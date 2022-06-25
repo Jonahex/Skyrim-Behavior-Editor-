@@ -327,8 +327,8 @@ bool hkbBlenderGenerator::write(HkxXMLWriter *writer){
         writedatafield("flags", flags, false);
         writedatafield("subtractLastChild", getBoolAsString(subtractLastChild), false);
         refString = "";
-        list1 = {writer->name, writer->numelements};
-        list2 = {"children", QString::number(children.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"children", QString::number(children.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0, j = 1; i < children.size(); i++, j++){
             refString.append(children.at(i)->getReferenceString());

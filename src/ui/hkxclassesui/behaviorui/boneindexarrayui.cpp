@@ -104,7 +104,7 @@ void BoneIndexArrayUI::connectToTables(GenericTableWidget *ragdollBones){
     if (ragdollBones){
         disconnect(ragdollBones, SIGNAL(elementSelected(int,QString)), 0, 0);
         connect(ragdollBones, SIGNAL(elementSelected(int,QString)), this, SLOT(setRagdollBone(int,QString)), Qt::UniqueConnection);
-        connect(this, SIGNAL(viewRagdollBones(int)), ragdollBones, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
+        connect(this, &BoneIndexArrayUI::viewRagdollBones, ragdollBones, static_cast<void (GenericTableWidget::*)(int, const QString&, const QStringList&)>(&GenericTableWidget::showTable), Qt::UniqueConnection);
     }else{
         LogFile::writeToLog("BoneIndexArrayUI::connectToTables(): One or more arguments are nullptr!!");
     }
@@ -119,7 +119,7 @@ void BoneIndexArrayUI::viewSelectedChild(int row, int column){
             auto result = row - BASE_NUMBER_OF_ROWS;
             if (numbones > result && result >= 0){
                 if (column == VALUE_COLUMN){
-                    emit viewRagdollBones(bsData->getBoneIndexAt(result) + 1);
+                    emit viewRagdollBones(bsData->getBoneIndexAt(result) + 1, {}, {});
                 }else if (column == TYPE_COLUMN){
                     if (MainWindow::yesNoDialogue("Are you sure you want to remove the ragdoll bone \""+table->item(row, NAME_COLUMN)->text()+"\"?") == QMessageBox::Yes){
                         removeRagdollBone(result);

@@ -143,8 +143,8 @@ bool hkbHandIkDriverInfo::write(HkxXMLWriter *writer){
         QStringList list1 = {writer->name, writer->clas, writer->signature};
         QStringList list2 = {getReferenceString(), getClassname(), "0x"+QString::number(getSignature(), 16)};
         writer->writeLine(writer->object, list1, list2, "");
-        list1 = {writer->name, writer->numelements};
-        list2 = {"hands", QString::number(hands.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"hands", QString::number(hands.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < hands.size(); i++){
             writer->writeLine(writer->object, true);

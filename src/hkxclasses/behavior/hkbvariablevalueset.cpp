@@ -143,8 +143,8 @@ bool hkbVariableValueSet::write(HkxXMLWriter *writer){
         QStringList list1 = {writer->name, writer->clas, writer->signature};
         QStringList list2 = {getReferenceString(), getClassname(), "0x"+QString::number(getSignature(), 16)};
         writer->writeLine(writer->object, list1, list2, "");
-        list1 = {writer->name, writer->numelements};
-        list2 = {"wordVariableValues", QString::number(wordVariableValues.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"wordVariableValues", QString::number(wordVariableValues.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < wordVariableValues.size(); i++){
             writer->writeLine(writer->object, true);
@@ -154,8 +154,8 @@ bool hkbVariableValueSet::write(HkxXMLWriter *writer){
         if (wordVariableValues.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list1 = {writer->name, writer->numelements};
-        list2 = {"quadVariableValues", QString::number(quadVariableValues.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"quadVariableValues", QString::number(quadVariableValues.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < quadVariableValues.size(); i++){
             writer->writeLine(quadVariableValues[i].getValueAsString());
@@ -163,8 +163,8 @@ bool hkbVariableValueSet::write(HkxXMLWriter *writer){
         if (quadVariableValues.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list1 = {writer->name, writer->numelements};
-        list2 = {"variantVariableValues", QString::number(variantVariableValues.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"variantVariableValues", QString::number(variantVariableValues.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         QString refs;
         for (auto i = 0, j = 1; i < variantVariableValues.size(); i++, j++){

@@ -123,8 +123,8 @@ bool hkbBehaviorGraphStringData::write(HkxXMLWriter *writer){
         if (eventNames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"attributeNames", QString::number(attributeNames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"attributeNames", QString::number(attributeNames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < attributeNames.size(); i++){
             writer->writeLine(writer->string, QStringList(), QStringList(), attributeNames.at(i));
@@ -132,8 +132,8 @@ bool hkbBehaviorGraphStringData::write(HkxXMLWriter *writer){
         if (attributeNames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"variableNames", QString::number(variableNames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"variableNames", QString::number(variableNames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < variableNames.size(); i++){
             writer->writeLine(writer->string, QStringList(), QStringList(), variableNames.at(i));
@@ -141,8 +141,8 @@ bool hkbBehaviorGraphStringData::write(HkxXMLWriter *writer){
         if (variableNames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"characterPropertyNames", QString::number(characterPropertyNames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"characterPropertyNames", QString::number(characterPropertyNames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < characterPropertyNames.size(); i++){
             writer->writeLine(writer->string, QStringList(), QStringList(), characterPropertyNames.at(i));

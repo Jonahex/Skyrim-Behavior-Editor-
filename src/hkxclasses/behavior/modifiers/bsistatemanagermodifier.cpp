@@ -68,7 +68,7 @@ bool BSIStateManagerModifier::readData(const HkxXmlReader &reader, long & index)
                         if (!stateData.last().pStateMachine.readShdPtrReference(index, reader)){
                             LogFile::writeToLog(getParentFilename()+": "+getClassname()+": readData()!\nFailed to properly read 'pStateMachine' reference!\nObject Reference: "+ref);
                         }
-                    }else if (reader.getNthAttributeValueAt(index, 0) == "stateID"){
+                    }else if (reader.getNthAttributeValueAt(index, 0) == "StateID"){
                         stateData.last().stateID = reader.getElementValueAt(index).toInt(&ok);
                         if (!ok){
                             return false;
@@ -84,6 +84,7 @@ bool BSIStateManagerModifier::readData(const HkxXmlReader &reader, long & index)
                     index++;
                 }
             }
+            index--;
         }
         index++;
     }
@@ -108,8 +109,8 @@ bool BSIStateManagerModifier::write(HkxXMLWriter *writer){
         writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("name"), name);
         writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("enable"), getBoolAsString(enable));
         writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("iStateVar"), QString::number(iStateVar));
-        list1 = {writer->name, writer->numelements};
-        list2 = {"stateData", QString::number(stateData.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"stateData", QString::number(stateData.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < stateData.size(); i++){
             writer->writeLine(writer->object, true);
@@ -119,7 +120,7 @@ bool BSIStateManagerModifier::write(HkxXMLWriter *writer){
                 refString = "null";
             }
             writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("pStateMachine"), refString);
-            writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("stateID"), QString::number(stateData.at(i).stateID));
+            writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("StateID"), QString::number(stateData.at(i).stateID));
             writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("iStateToSetAs"), QString::number(stateData.at(i).iStateToSetAs));
             writer->writeLine(writer->object, false);
         }

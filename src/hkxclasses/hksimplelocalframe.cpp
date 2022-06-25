@@ -49,8 +49,8 @@ bool hkSimpleLocalFrame::write(HkxXMLWriter *writer){
         QStringList list2 = {getReferenceString(), getClassname(), "0x"+QString::number(getSignature(), 16)};
         writer->writeLine(writer->object, list1, list2, "");
         writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("transform"), "(0.000000 0.000000 0.000000)(0.000000 0.000000 0.000000)(0.000000 0.000000 0.000000)(0.000000 0.000000 0.000000)");
-        list1 = {writer->name, writer->numelements};
-        list2 = {"children", "0"};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"children", "0"};
         writer->writeLine(writer->parameter, list1, list2, " ");
         writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("parentFrame"), "null");
         writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("group"), "null");

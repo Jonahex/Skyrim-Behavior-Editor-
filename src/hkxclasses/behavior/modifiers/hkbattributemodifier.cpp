@@ -100,8 +100,8 @@ bool hkbAttributeModifier::write(HkxXMLWriter *writer){
         writedatafield("userData", QString::number(userData));
         writedatafield("name", name);
         writedatafield("enable", getBoolAsString(enable));
-        list1 = {writer->name, writer->numelements};
-        list2 = {"assignments", QString::number(assignments.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"assignments", QString::number(assignments.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < assignments.size(); i++){
             writer->writeLine(writer->object, true);

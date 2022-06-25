@@ -67,7 +67,7 @@ bool hkbEventRangeDataArray::readData(const HkxXmlReader &reader, long & index){
                 eventData.append(hkbEventRangeData());
                 for (; index < reader.getNumElements(); index++){
                     text = reader.getNthAttributeValueAt(index, 0);
-                    if (text == "localTime"){
+                    if (text == "upperBound"){
                         eventData.last().upperBound = reader.getElementValueAt(index).toDouble(&ok);
                         checkvalue(ok, "eventData.at("+QString::number(j)+").upperBound");
                     }else if (text == "id"){
@@ -99,8 +99,8 @@ bool hkbEventRangeDataArray::write(HkxXMLWriter *writer){
         QStringList list1 = {writer->name, writer->clas, writer->signature};
         QStringList list2 = {getReferenceString(), getClassname(), "0x"+QString::number(getSignature(), 16)};
         writer->writeLine(writer->object, list1, list2, "");
-        list1 = {writer->name, writer->numelements};
-        list2 = {"eventData", QString::number(eventData.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"eventData", QString::number(eventData.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < eventData.size(); i++){
             writer->writeLine(writer->object, true);

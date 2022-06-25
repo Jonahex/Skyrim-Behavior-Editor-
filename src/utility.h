@@ -11,6 +11,7 @@
 #include <QTextStream>
 #include <mutex>
 #include <fstream>
+#include <iostream>
 
 #define MAX_HKXXML_LINE_LENGTH 512
 //#define WRITE_TO_LOG(message){QFile file(QDir::currentPath()+"/DebugLog.txt");if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)){QTextStream out(&file);out << message << "\n";}}
@@ -156,7 +157,8 @@ public:
     static void writeToLog(const QString & message){
         std::lock_guard <std::mutex> guard(mutex);
         //logFile.open(QDir::currentPath().toStdString()+"/DebugLog.txt", std::ios::out | std::ios::trunc);
-        logFile << message.toStdString() << "\n\n";
+        std::cout << message.toStdString() << "\n";
+    	logFile << message.toStdString() << "\n\n";
     }
 
     static void writeToLog(const QStringList & messages){
@@ -274,7 +276,7 @@ bool chopLine(QFile * file, QByteArray & line, ulong & linecount){
     return false;
 }
 
-QString trimFloat(QString & string){
+QString trimFloat(QString string){
     for (auto i = string.size() - 1; i >= 0; i--){
         if (string.at(i) == '0'){
             string.remove(i, 1);

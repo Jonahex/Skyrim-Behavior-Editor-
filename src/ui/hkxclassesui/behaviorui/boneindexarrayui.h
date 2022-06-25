@@ -30,7 +30,7 @@ public:
     void connectToTables(GenericTableWidget *ragdollBones);
 signals:
     void returnToParent();
-    void viewRagdollBones(int index);
+    void viewRagdollBones(int index, const QString&, const QStringList&);
 private slots:
     void setRagdollBone(int index, const QString & name);
     void viewSelectedChild(int row, int column);

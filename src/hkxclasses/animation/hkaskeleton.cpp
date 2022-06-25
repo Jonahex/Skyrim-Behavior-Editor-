@@ -201,8 +201,8 @@ bool hkaSkeleton::write(HkxXMLWriter *writer){
         QStringList list2 = {getReferenceString(), getClassname(), "0x"+QString::number(getSignature(), 16)};
         writer->writeLine(writer->object, list1, list2, "");
         writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("name"), name);
-        list1 = {writer->name, writer->numelements};
-        list2 = {"parentIndices", QString::number(parentIndices.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"parentIndices", QString::number(parentIndices.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0, j = 1; i < parentIndices.size(); i++, j++){
             bonesS.append(QString::number(parentIndices.at(i), char('f'), 6));
@@ -215,8 +215,8 @@ bool hkaSkeleton::write(HkxXMLWriter *writer){
             writer->writeLine(bonesS);
             writer->writeLine(writer->parameter, false);
         }
-        list1 = {writer->name, writer->numelements};
-        list2 = {"bones", QString::number(bones.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"bones", QString::number(bones.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < bones.size(); i++){
             writer->writeLine(writer->object, true);
@@ -228,8 +228,8 @@ bool hkaSkeleton::write(HkxXMLWriter *writer){
             writer->writeLine(writer->parameter, false);
         }
         bonesS = "";
-        list1 = {writer->name, writer->numelements};
-        list2 = {"referenceFloats", QString::number(referenceFloats.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"referenceFloats", QString::number(referenceFloats.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0, j = 1; i < referenceFloats.size(); i++, j++){
             bonesS.append(QString::number(referenceFloats.at(i), char('f'), 6));
@@ -242,8 +242,8 @@ bool hkaSkeleton::write(HkxXMLWriter *writer){
             writer->writeLine(bonesS);
             writer->writeLine(writer->parameter, false);
         }
-        list1 = {writer->name, writer->numelements};
-        list2 = {"floatSlots", QString::number(floatSlots.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"floatSlots", QString::number(floatSlots.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < floatSlots.size(); i++){
             writer->writeLine(writer->string, QStringList(), QStringList(), floatSlots.at(i));
@@ -252,8 +252,8 @@ bool hkaSkeleton::write(HkxXMLWriter *writer){
             writer->writeLine(writer->parameter, false);
         }
         QString refString = "null";
-        list1 = {writer->name, writer->numelements};
-        list2 = {"localFrames", QString::number(localFrames.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"localFrames", QString::number(localFrames.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < localFrames.size(); i++){
             writer->writeLine(writer->object, true);

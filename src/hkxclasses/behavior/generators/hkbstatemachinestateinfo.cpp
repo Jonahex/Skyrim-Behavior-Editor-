@@ -434,8 +434,8 @@ bool hkbStateMachineStateInfo::write(HkxXMLWriter *writer){
         QStringList list2 = {getReferenceString(), getClassname(), "0x"+QString::number(getSignature(), 16)};
         writer->writeLine(writer->object, list1, list2, "");
         writeref(getVariableBindingSet(), "variableBindingSet");
-        list1 = {writer->name, writer->numelements};
-        list2 = {"listeners", "0"};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"listeners", "0"};
         writer->writeLine(writer->parameter, list1, list2, "");
         writeref(enterNotifyEvents, "enterNotifyEvents");
         writeref(exitNotifyEvents, "exitNotifyEvents");

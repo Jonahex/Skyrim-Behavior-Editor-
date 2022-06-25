@@ -46,6 +46,7 @@ private slots:
     void viewBones();
     void viewSelected(int row, int column);
     void setBindingVariable(int index, const QString & name);
+    void returnToWidget();
 private:
     void toggleSignals(bool toggleconnections);
     void selectTableToView(bool viewproperties, const QString & path);

@@ -112,6 +112,7 @@ bool BSEventEveryNEventsModifier::write(HkxXMLWriter *writer){
         writeref(getVariableBindingSet(), "variableBindingSet");
         writedatafield("userData", QString::number(userData), false);
         writedatafield("name", name, false);
+        writedatafield("enable", getBoolAsString(enable), false);
         writedatafield("eventToCheckFor", "", false);
         writer->writeLine(writer->object, true);
         writedatafield("id", QString::number(eventToCheckFor.id), false);

@@ -307,7 +307,9 @@ void StateUI::addEvent(HkxSharedPtr & eventarray){  //Make sure bsData is not nu
         events = new hkbStateMachineEventPropertyArray(bsData->getParentFile(), -1);
         eventarray = HkxSharedPtr(events);
     }
-    events->addEvent();
+    hkEventPayload newEvent;
+	newEvent.id = 0;
+    events->addEvent(newEvent);
     loadDynamicTableRows();
 }
 
@@ -379,7 +381,7 @@ void StateUI::viewSelectedChild(int row, int column){
     auto result = 0;
     auto count = 0;
     if (bsData){
-        auto viewevent = [&](hkbStateMachineEventPropertyArray *eventarray, int eventrow){
+        auto viewevent = [&](hkbStateMachineEventPropertyArray *eventarray, int eventrow, bool isExit){
             result = row - eventrow - 1;
             if (eventarray->events.size() > result && result >= 0){
                 if (column == VALUE_COLUMN){
@@ -387,7 +389,7 @@ void StateUI::viewSelectedChild(int row, int column){
                     setCurrentIndex(EVENT_PAYLOAD_WIDGET);
                 }else if (column == BINDING_COLUMN){
                     if (MainWindow::yesNoDialogue("Are you sure you want to remove the event \""+table->item(row, NAME_COLUMN)->text()+"\"?") == QMessageBox::Yes){
-                        removeEnterEvent(result);
+                        isExit ? removeExitEvent(result) : removeEnterEvent(result);
                     }
                 }
             }else{
@@ -405,10 +407,10 @@ void StateUI::viewSelectedChild(int row, int column){
             addTransition();
         }else if (row > ADD_ENTER_EVENT_ROW && row < exitEventsButtonRow){
             auto enterEvents = static_cast<hkbStateMachineEventPropertyArray *>(bsData->enterNotifyEvents.data());
-            viewevent(enterEvents, ADD_ENTER_EVENT_ROW);
+            viewevent(enterEvents, ADD_ENTER_EVENT_ROW, false);
         }else if (row > exitEventsButtonRow && row < transitionsButtonRow){
             auto exitEvents = static_cast<hkbStateMachineEventPropertyArray *>(bsData->exitNotifyEvents.data());
-            viewevent(exitEvents, exitEventsButtonRow);
+            viewevent(exitEvents, exitEventsButtonRow, true);
         }else if (row > exitEventsButtonRow && row < table->rowCount()){
             auto enterEvents = static_cast<hkbStateMachineEventPropertyArray *>(bsData->enterNotifyEvents.data());
             (enterEvents) ? count = enterEvents->events.size() : NULL;

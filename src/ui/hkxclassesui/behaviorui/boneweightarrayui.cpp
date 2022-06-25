@@ -47,9 +47,9 @@ BoneWeightArrayUI::BoneWeightArrayUI()
 void BoneWeightArrayUI::loadData(HkxObject *data, bool isRagdoll){
     blockSignals(true);
     if (data && data->getSignature() == HKB_BONE_WEIGHT_ARRAY){
-        HkxFile *file = dynamic_cast<BehaviorFile *>(bsData->getParentFile());
         QStringList boneNames;
         bsData = static_cast<hkbBoneWeightArray *>(data);
+        HkxFile* file = dynamic_cast<BehaviorFile*>(bsData->getParentFile());
         if (file){
             (isRagdoll) ? boneNames = static_cast<BehaviorFile *>(file)->getRagdollBoneNames() : boneNames = static_cast<BehaviorFile *>(file)->getRigBoneNames();
         }else{

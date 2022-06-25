@@ -47,7 +47,7 @@ bool HkxFile::link(){
     return true;
 }
 
-void HkxFile::setRootObject(HkxSharedPtr & obj){
+void HkxFile::setRootObject(HkxSharedPtr obj){
     //std::lock_guard <std::mutex> guard(mutex);
     rootObject = obj;
 }

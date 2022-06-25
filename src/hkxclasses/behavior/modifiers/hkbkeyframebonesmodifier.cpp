@@ -104,8 +104,8 @@ bool hkbKeyframeBonesModifier::write(HkxXMLWriter *writer){
         writedatafield("userData", QString::number(userData));
         writedatafield("name", name);
         writedatafield("enable", getBoolAsString(enable));
-        list1 = {writer->name, writer->numelements};
-        list2 = {"keyframeInfo", QString::number(keyframeInfo.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"keyframeInfo", QString::number(keyframeInfo.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < keyframeInfo.size(); i++){
             writer->writeLine(writer->object, true);

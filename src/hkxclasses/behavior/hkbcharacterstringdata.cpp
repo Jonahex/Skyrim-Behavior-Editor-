@@ -230,8 +230,8 @@ bool hkbCharacterStringData::write(HkxXMLWriter *writer){
         if (deformableSkinNames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"rigidSkinNames", QString::number(rigidSkinNames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"rigidSkinNames", QString::number(rigidSkinNames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < rigidSkinNames.size(); i++){
             writedatafield("", rigidSkinNames.at(i));
@@ -239,8 +239,8 @@ bool hkbCharacterStringData::write(HkxXMLWriter *writer){
         if (rigidSkinNames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"animationNames", QString::number(animationNames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"animationNames", QString::number(animationNames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < animationNames.size(); i++){
             writedatafield("", QString(animationNames.at(i)).replace("/", "\\"));
@@ -248,8 +248,8 @@ bool hkbCharacterStringData::write(HkxXMLWriter *writer){
         if (animationNames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"animationFilenames", QString::number(animationFilenames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"animationFilenames", QString::number(animationFilenames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < animationFilenames.size(); i++){
             writedatafield("", animationFilenames.at(i));
@@ -257,8 +257,8 @@ bool hkbCharacterStringData::write(HkxXMLWriter *writer){
         if (animationFilenames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"characterPropertyNames", QString::number(characterPropertyNames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"characterPropertyNames", QString::number(characterPropertyNames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < characterPropertyNames.size(); i++){
             writedatafield("", characterPropertyNames.at(i));
@@ -266,8 +266,8 @@ bool hkbCharacterStringData::write(HkxXMLWriter *writer){
         if (characterPropertyNames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"retargetingSkeletonMapperFilenames", QString::number(retargetingSkeletonMapperFilenames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"retargetingSkeletonMapperFilenames", QString::number(retargetingSkeletonMapperFilenames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < retargetingSkeletonMapperFilenames.size(); i++){
             writedatafield("", retargetingSkeletonMapperFilenames.at(i));
@@ -275,8 +275,8 @@ bool hkbCharacterStringData::write(HkxXMLWriter *writer){
         if (retargetingSkeletonMapperFilenames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"lodNames", QString::number(lodNames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"lodNames", QString::number(lodNames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < lodNames.size(); i++){
             writedatafield("", lodNames.at(i));
@@ -284,8 +284,8 @@ bool hkbCharacterStringData::write(HkxXMLWriter *writer){
         if (lodNames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"mirroredSyncPointSubstringsA", QString::number(mirroredSyncPointSubstringsA.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"mirroredSyncPointSubstringsA", QString::number(mirroredSyncPointSubstringsA.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < mirroredSyncPointSubstringsA.size(); i++){
             writedatafield("", mirroredSyncPointSubstringsA.at(i));
@@ -293,8 +293,8 @@ bool hkbCharacterStringData::write(HkxXMLWriter *writer){
         if (mirroredSyncPointSubstringsA.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"mirroredSyncPointSubstringsB", QString::number(mirroredSyncPointSubstringsB.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"mirroredSyncPointSubstringsB", QString::number(mirroredSyncPointSubstringsB.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < mirroredSyncPointSubstringsB.size(); i++){
             writedatafield("", mirroredSyncPointSubstringsB.at(i));

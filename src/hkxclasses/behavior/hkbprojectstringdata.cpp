@@ -98,8 +98,8 @@ bool hkbProjectStringData::write(HkxXMLWriter *writer){
         if (animationFilenames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"behaviorFilenames", QString::number(behaviorFilenames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"behaviorFilenames", QString::number(behaviorFilenames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < behaviorFilenames.size(); i++){
             writedatafield("", behaviorFilenames.at(i), false);
@@ -107,8 +107,8 @@ bool hkbProjectStringData::write(HkxXMLWriter *writer){
         if (behaviorFilenames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"characterFilenames", QString::number(characterFilenames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"characterFilenames", QString::number(characterFilenames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < characterFilenames.size(); i++){
             writedatafield("", QString(characterFilenames.at(i)).replace("/", "\\"), false);
@@ -116,8 +116,8 @@ bool hkbProjectStringData::write(HkxXMLWriter *writer){
         if (characterFilenames.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list3 = {writer->name, writer->numelements};
-        list4 = {"eventNames", QString::number(eventNames.size())};
+        list3 = QStringList{writer->name, writer->numelements};
+        list4 = QStringList{"eventNames", QString::number(eventNames.size())};
         writer->writeLine(writer->parameter, list3, list4, "");
         for (auto i = 0; i < eventNames.size(); i++){
             writedatafield("", eventNames.at(i), false);

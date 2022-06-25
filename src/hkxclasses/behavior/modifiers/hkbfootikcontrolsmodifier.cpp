@@ -96,12 +96,14 @@ bool hkbFootIkControlsModifier::readData(const HkxXmlReader &reader, long & inde
                     if (text == "groundPosition"){
                         legs.last().groundPosition = readVector4(reader.getElementValueAt(index), &ok);
                         checkvalue(ok, "legs.at("+QString::number(j)+").groundPosition");
-                    }else if (text == "id"){
+                    }else if (text == "id") {
                         legs.last().id = reader.getElementValueAt(index).toDouble(&ok);
-                        checkvalue(ok, "legs.at("+QString::number(j)+").id");
-                    }else if (text == "payload"){
-                        checkvalue(legs.last().payload.readShdPtrReference(index, reader), "legs.at("+QString::number(j)+").payload");
-                    }else if (text == "verticalError"){
+                        checkvalue(ok, "legs.at(" + QString::number(j) + ").id");
+                    }
+                    else if (text == "payload") {
+                        checkvalue(legs.last().payload.readShdPtrReference(index, reader), "legs.at(" + QString::number(j) + ").payload");
+                    }
+                    else if (text == "verticalError"){
                         legs.last().verticalError = reader.getElementValueAt(index).toDouble(&ok);
                         checkvalue(ok, "legs.at("+QString::number(j)+").verticalError");
                     }else if (text == "hitSomething"){
@@ -169,14 +171,20 @@ bool hkbFootIkControlsModifier::write(HkxXMLWriter *writer){
         writer->writeLine(writer->parameter, false);
         writer->writeLine(writer->object, false);
         writer->writeLine(writer->parameter, false);
-        list1 = {writer->name, writer->numelements};
-        list2 = {"legs", QString::number(legs.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"legs", QString::number(legs.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < legs.size(); i++){
             writer->writeLine(writer->object, true);
             writedatafield("fwdAxisLS", legs[i].groundPosition.getValueAsString());
+
+            writedatafield("ungroundedEvent", "");
+            writer->writeLine(writer->object, true);
             writedatafield("id", QString::number(legs.at(i).id));
-            writeref(legs.at(i).payload, "legs.at("+QString::number(i)+").payload");
+            writeref(legs.at(i).payload, "payload");
+            writer->writeLine(writer->object, false);
+            writer->writeLine(writer->parameter, false);
+
             writedatafield("verticalError", QString::number(legs.at(i).verticalError, char('f'), 6));
             writedatafield("hitSomething", getBoolAsString(legs.at(i).hitSomething));
             writedatafield("isPlantedMS", getBoolAsString(legs.at(i).isPlantedMS));

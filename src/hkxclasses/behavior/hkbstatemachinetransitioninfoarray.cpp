@@ -170,6 +170,10 @@ bool hkbStateMachineTransitionInfoArray::readData(const HkxXmlReader &reader, lo
                         checkvalue(transitions.last().transition.readShdPtrReference(index, reader), "transition");
                     }else if (text == "condition"){
                         checkvalue(transitions.last().condition.readShdPtrReference(index, reader), "condition");
+                        if (transitions.last().condition.data())
+                        {
+                            std::cout << "wow!\n";
+                        }
                     }else if (text == "eventId"){
                         transitions.last().eventId = reader.getElementValueAt(index).toInt(&ok);
                         checkvalue(ok, "eventId");
@@ -222,8 +226,8 @@ bool hkbStateMachineTransitionInfoArray::write(HkxXMLWriter *writer){
         QStringList list1 = {writer->name, writer->clas, writer->signature};
         QStringList list2 = {getReferenceString(), getClassname(), "0x"+QString::number(getSignature(), 16)};
         writer->writeLine(writer->object, list1, list2, "");
-        list1 = {writer->name, writer->numelements};
-        list2 = {"transitions", QString::number(transitions.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"transitions", QString::number(transitions.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < transitions.size(); i++){
             writer->writeLine(writer->object, true);
@@ -427,6 +431,7 @@ bool hkbStateMachineTransitionInfoArray::link(){
 QString hkbStateMachineTransitionInfoArray::evaluateDataValidity(){ //Do not call this outside it's parent state machine or state in a multithreaded context or there will be a potential race condition...
     std::lock_guard <std::mutex> guard(mutex);
     QString errors;
+    return errors;
     auto isvalid = true;
     if (!parent){
         isvalid = false;

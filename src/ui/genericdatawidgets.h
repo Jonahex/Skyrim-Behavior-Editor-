@@ -245,7 +245,7 @@ public:
         setStyleSheet("QHeaderView::section { background-color:grey }");
         //verticalHeader()->setVisible(false);
         setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContents);
-        horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+        horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
         horizontalHeader()->setSectionsClickable(false);
         setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         //setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -461,14 +461,15 @@ public:
     void renameItem(int index, const QString & newname);
     void removeItem(int index);
     int getNumRows() const;
+public slots:
+    void showTable(int index, const QString& typeallowed = "", const QStringList& typesdisallowed = QStringList());
+    void showTable(const QString& name, const QString& typeallowed = "", const QStringList& typesdisallowed = QStringList());
 signals:
     void elementSelected(int index, const QString & name);
     void elementAdded(int index, const QString & type);
 private slots:
     void itemSelected();
     void itemSelectedAt(int row, int );
-    void showTable(int index, const QString &typeallowed = "", const QStringList &typesdisallowed = QStringList());
-    void showTable(const QString & name, const QString &typeallowed = "", const QStringList &typesdisallowed = QStringList());
     void filterItems();
     void resetFilter();
     void setTypeFilter(const QString & typeallowed, const QStringList &typesdisallowed = QStringList());

@@ -245,15 +245,15 @@ CacheWidget::CacheWidget()
     cacheEvents->setHorizontalHeaderLabels(list);
     cacheEvents->setEditTriggers(QAbstractItemView::DoubleClicked);
     cacheEvents->setToolTip("Double Click To Edit");
-    list = {"AnimCacheVariable", "Value"};
+    list = QStringList{"AnimCacheVariable", "Value"};
     behaviorVariables->setColumnCount(list.size());
     behaviorVariables->setHorizontalHeaderLabels(list);
     behaviorVariables->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    list = {"AnimCacheClipInfo", "Value"};
+    list = QStringList{"AnimCacheClipInfo", "Value"};
     clipGenerators->setColumnCount(list.size());
     clipGenerators->setHorizontalHeaderLabels(list);
     clipGenerators->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    list = {"Animation Names"};
+    list = QStringList{"Animation Names"};
     animations->setColumnCount(list.size());
     animations->setHorizontalHeaderLabels(list);
     animations->setEditTriggers(QAbstractItemView::DoubleClicked);
@@ -557,14 +557,17 @@ void AnimationCacheUI::loadData(ProjectFile *project){
     toggleSignals(false);
     if (project){
         projectData = project;
-        bsData = projectData->getProjectCacheData();
-        cacheFiles->setRowCount(bsData->fileNames.size());
-        for (auto i = 0; i < bsData->fileNames.size(); i++){
-            if (cacheFiles->item(i, 0)){
-                cacheFiles->item(i, 0)->setText(bsData->fileNames.at(i));
-            }else{
-                cacheFiles->setItem(i, 0, new TableWidgetItem(bsData->fileNames.at(i)));
-                cacheFiles->setItem(i, 1, new TableWidgetItem("Double Click To Edit"));
+        if (bsData = projectData->getProjectCacheData())
+        {
+            cacheFiles->setRowCount(bsData->fileNames.size());
+            for (auto i = 0; i < bsData->fileNames.size(); i++) {
+                if (cacheFiles->item(i, 0)) {
+                    cacheFiles->item(i, 0)->setText(bsData->fileNames.at(i));
+                }
+                else {
+                    cacheFiles->setItem(i, 0, new TableWidgetItem(bsData->fileNames.at(i)));
+                    cacheFiles->setItem(i, 1, new TableWidgetItem("Double Click To Edit"));
+                }
             }
         }
     }else{

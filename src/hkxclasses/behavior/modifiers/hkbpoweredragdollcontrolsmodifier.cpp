@@ -87,7 +87,11 @@ bool hkbPoweredRagdollControlsModifier::readData(const HkxXmlReader &reader, lon
         }else if (text == "mode"){
             mode = reader.getElementValueAt(index);
             checkvalue(Mode.contains(mode), "mode");
-        }else if (text == "boneWeights"){
+        }
+        else if (text == "bones") {
+            checkvalue(bones.readShdPtrReference(index, reader), "bones");
+        }
+        else if (text == "boneWeights"){
             checkvalue(boneWeights.readShdPtrReference(index, reader), "boneWeights");
         }
     }

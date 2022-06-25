@@ -238,7 +238,7 @@ void BlendingTransitionEffectUI::setBlendCurve(int index){
     (bsData) ? bsData->setBlendCurve(index) : LogFile::writeToLog("BlendingTransitionEffectUI::setBlendCurve(): The data is nullptr!!");
 }
 
-void BlendingTransitionEffectUI::setFlag(CheckBox *flagcheckbox, QString &flags, const QString & flagtocheck){
+void BlendingTransitionEffectUI::setFlag(CheckBox *flagcheckbox, QString flags, const QString & flagtocheck){
     if (flagcheckbox->isChecked()){
         if (flags == flagtocheck){
             flags = flagtocheck;

@@ -242,7 +242,7 @@ bool BSSynchronizedClipGenerator::write(HkxXMLWriter *writer){
         writedatafield("userData", QString::number(userData), false);
         writedatafield("name", name, false);
         writeref(pClipGenerator, "pClipGenerator");
-        writedatafield("syncAnimPrefix", syncAnimPrefix, false);
+        writedatafield("SyncAnimPrefix", syncAnimPrefix, false);
         writedatafield("bSyncClipIgnoreMarkPlacement", getBoolAsString(bSyncClipIgnoreMarkPlacement), false);
         writedatafield("fGetToMarkTime", QString::number(fGetToMarkTime, char('f'), 6), false);
         writedatafield("fMarkErrorThreshold", QString::number(fMarkErrorThreshold, char('f'), 6), false);

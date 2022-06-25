@@ -631,7 +631,12 @@ bool hkbStateMachine::readData(const HkxXmlReader &reader, long & index){
         }else if (text == "returnToPreviousStateEventId"){
             returnToPreviousStateEventId = reader.getElementValueAt(index).toInt(&ok);
             checkvalue(ok, "returnToPreviousStateEventId");
-        }else if (text == "transitionToNextHigherStateEventId"){
+        }
+        else if (text == "randomTransitionEventId") {
+            randomTransitionEventId = reader.getElementValueAt(index).toInt(&ok);
+            checkvalue(ok, "randomTransitionEventId");
+        }
+        else if (text == "transitionToNextHigherStateEventId"){
             transitionToNextHigherStateEventId = reader.getElementValueAt(index).toInt(&ok);
             checkvalue(ok, "transitionToNextHigherStateEventId");
         }else if (text == "transitionToNextLowerStateEventId"){
@@ -702,8 +707,8 @@ bool hkbStateMachine::write(HkxXMLWriter *writer){
         writedatafield("startStateMode", startStateMode, false);
         writedatafield("selfTransitionMode", selfTransitionMode, false);
         refString = "";
-        list1 = {writer->name, writer->numelements};
-        list2 = {"states", QString::number(states.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"states", QString::number(states.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0, j = 1; i < states.size(); i++, j++){
             refString.append(states.at(i)->getReferenceString());

@@ -1081,7 +1081,7 @@ bool BehaviorFile::parse(){
                     case HKB_DETECT_CLOSE_TO_GROUND_MODIFIER:
                         appendnread(new hkbDetectCloseToGroundModifier(this, ref), "HKB_DETECT_CLOSE_TO_GROUND_MODIFIER"); break;
                     case BS_PASS_BY_TARGET_TRIGGER_MODIFIER:
-                        appendnread(new BSLookAtModifier(this, ref), "BS_PASS_BY_TARGET_TRIGGER_MODIFIER"); break;
+                        appendnread(new BSPassByTargetTriggerModifier(this, ref), "BS_PASS_BY_TARGET_TRIGGER_MODIFIER"); break;
                     case HKB_HAND_IK_CONTROLS_MODIFIER:
                         appendnread(new hkbHandIkControlsModifier(this, ref), "HKB_HAND_IK_CONTROLS_MODIFIER"); break;
                     case HKB_ATTACHMENT_MODIFIER:
@@ -1151,8 +1151,8 @@ bool BehaviorFile::link(){
         linkobjs(modifiers);
         linkobjs(otherTypes);
         (!behaviorGraph->link()) ? result = false : NULL;
-        (!variableValues->link()) ? result = false : NULL;
-        (!graphData->link()) ? result = false : NULL;
+        (!variableValues || !variableValues->link()) ? result = false : NULL;
+        (!graphData || !graphData->link()) ? result = false : NULL;
         for (auto i = 0; i < generators.size(); i++){
             auto sig = generators.at(i)->getSignature();
             (sig == HKB_STATE_MACHINE || sig == HKB_BLENDER_GENERATOR || sig == BS_BONE_SWITCH_GENERATOR) ? ((generators.at(i)->link()) ? result = false : NULL) : NULL;
@@ -1480,14 +1480,14 @@ void BehaviorFile::write(){
     auto root = getRootObject().data();
     if (root){
         root->setIsWritten(false);
-        stringData->setIsWritten(false);
-        variableValues->setIsWritten(false);
-        graphData->setIsWritten(false);
+        stringData.data() ? stringData->setIsWritten(false) : nullptr;
+        variableValues.data() ? variableValues->setIsWritten(false) : nullptr;
+        graphData.data() ? graphData->setIsWritten(false) : nullptr;
         behaviorGraph->setIsWritten(false);
         root->setReference(ref++);
-        stringData->setReference(ref++);
-        variableValues->setReference(ref++);
-        graphData->setReference(ref++);
+        stringData.data() ? stringData->setReference(ref++) : nullptr;
+        variableValues.data() ? variableValues->setReference(ref++) : nullptr;
+        graphData.data() ? graphData->setReference(ref++) : nullptr;
         behaviorGraph->setReference(ref++);
         auto prepforwrite = [&](const QVector <HkxSharedPtr> & list){
             for (auto i = 0; i < list.size(); i++, ref++){

@@ -55,8 +55,8 @@ bool hkbMirroredSkeletonInfo::write(HkxXMLWriter *writer){
         QStringList list2 = {getReferenceString(), getClassname(), "0x"+QString::number(getSignature(), 16)};
         writer->writeLine(writer->object, list1, list2, "");
         writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("mirrorAxis"), mirrorAxis.getValueAsString());
-        list1 = {writer->name, writer->numelements};
-        list2 = {"bonePairMap", QString::number(bonePairMap.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"bonePairMap", QString::number(bonePairMap.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0, j = 1; i < bonePairMap.size(); i++, j++){
             bones.append(QString::number(bonePairMap.at(i)));

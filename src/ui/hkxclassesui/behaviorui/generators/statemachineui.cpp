@@ -224,8 +224,7 @@ void StateMachineUI::loadData(HkxObject *data){
     setCurrentIndex(MAIN_WIDGET);
     if (data && data->getSignature() == HKB_STATE_MACHINE){
         bsData = static_cast<hkbStateMachine *>(data);
-        QStringList statenames("None");
-        statenames = statenames + bsData->getStateNames();
+        QStringList statenames = bsData->getStateNames();
         name->setText(bsData->getName());
         (bsData->getEventToSendWhenStateOrTransitionChangesID() > -1) ? eventToSendWhenStateOrTransitionChanges->setChecked(true) : eventToSendWhenStateOrTransitionChanges->setChecked(false);
         startStateId->clear();

@@ -245,8 +245,6 @@ bool hkbFootIkModifier::write(HkxXMLWriter *writer){
         writedatafield("userData", QString::number(userData));
         writedatafield("name", name);
         writedatafield("enable", getBoolAsString(enable));
-        writedatafield("controlData", "");
-        writer->writeLine(writer->object, true);
         writedatafield("gains", "");
         writer->writeLine(writer->object, true);
         writedatafield("onOffGain", QString::number(gains.onOffGain, char('f'), 6));
@@ -263,18 +261,22 @@ bool hkbFootIkModifier::write(HkxXMLWriter *writer){
         writedatafield("ankleOrientationGain", QString::number(gains.ankleOrientationGain, char('f'), 6));
         writer->writeLine(writer->object, false);
         writer->writeLine(writer->parameter, false);
-        writer->writeLine(writer->object, false);
-        writer->writeLine(writer->parameter, false);
-        list1 = {writer->name, writer->numelements};
-        list2 = {"legs", QString::number(legs.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"legs", QString::number(legs.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < legs.size(); i++){
             writer->writeLine(writer->object, true);
             writedatafield("originalAnkleTransformMS", legs[i].originalAnkleTransformMS.getValueAsString());
             writedatafield("kneeAxisLS", legs[i].kneeAxisLS.getValueAsString());
             writedatafield("footEndLS", legs[i].footEndLS.getValueAsString());
+            writedatafield("ungroundedEvent", "");
+
+            writer->writeLine(writer->object, true);
             writedatafield("id", QString::number(legs.at(i).id));
-            writeref(legs.at(i).payload, "legs.at("+QString::number(i)+").payload");
+            writeref(legs.at(i).payload, "payload");
+            writer->writeLine(writer->object, false);
+            writer->writeLine(writer->parameter, false);
+
             writedatafield("footPlantedAnkleHeightMS", QString::number(legs.at(i).footPlantedAnkleHeightMS, char('f'), 6));
             writedatafield("footRaisedAnkleHeightMS", QString::number(legs.at(i).footRaisedAnkleHeightMS, char('f'), 6));
             writedatafield("maxAnkleHeightMS", QString::number(legs.at(i).maxAnkleHeightMS, char('f'), 6));
@@ -440,6 +442,7 @@ void hkbFootIkModifier::unlink(){
 QString hkbFootIkModifier::evaluateDataValidity(){
     std::lock_guard <std::mutex> guard(mutex);
     QString errors;
+    return errors;
     auto isvalid = true;
     if (legs.isEmpty()){
         isvalid = false;

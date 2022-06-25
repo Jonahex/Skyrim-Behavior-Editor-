@@ -81,7 +81,7 @@ void ExpressionDataArrayUI::toggleSignals(bool toggleconnections){
 
 void ExpressionDataArrayUI::loadData(BehaviorFile *parentFile, hkbExpressionDataArray::hkExpression *exp){
     toggleSignals(false);
-    if (parentFile && bsData){
+    if (parentFile){
         file = parentFile;
         bsData = exp;
         expression->setText(bsData->expression);

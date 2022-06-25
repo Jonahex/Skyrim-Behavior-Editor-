@@ -202,13 +202,13 @@ bool hkbManualSelectorGenerator::write(HkxXMLWriter *writer){
         writedatafield("userData", QString::number(userData), false);
         writedatafield("name", name, false);
         refString = "";
-        list1 = {writer->name, writer->numelements};
+        list1 = QStringList{writer->name, writer->numelements};
         for (auto i = generators.size() - 1; i >= 0; i--){
             if (!generators.at(i).data()){
                 generators.removeAt(i);
             }
         }
-        list2 = {"generators", QString::number(generators.size())};
+        list2 = QStringList{"generators", QString::number(generators.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0, j = 1; i < generators.size(); i++, j++){
             refString.append(generators.at(i)->getReferenceString());

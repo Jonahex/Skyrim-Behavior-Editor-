@@ -57,8 +57,8 @@ bool hkbBoneIndexArray::write(HkxXMLWriter *writer){
             refString = getVariableBindingSet()->getReferenceString();
         }
         writer->writeLine(writer->parameter, QStringList(writer->name), QStringList("variableBindingSet"), refString);
-        list1 = {writer->name, writer->numelements};
-        list2 = {"boneIndices", QString::number(boneIndices.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"boneIndices", QString::number(boneIndices.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0, j = 1; i < boneIndices.size(); i++, j++){
             bones.append(QString::number(boneIndices.at(i)));

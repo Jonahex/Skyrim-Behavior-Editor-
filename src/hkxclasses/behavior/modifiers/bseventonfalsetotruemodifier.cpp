@@ -58,7 +58,7 @@ bool BSEventOnFalseToTrueModifier::readData(const HkxXmlReader &reader, long & i
         }else if (text == "bVariableToTest1"){
             bVariableToTest1 = toBool(reader.getElementValueAt(index), &ok);
             checkvalue(ok, "bVariableToTest1");
-        }else if (text == "eventToSend1"){
+        }else if (text == "EventToSend1"){
             index++;
             for (; index < reader.getNumElements() && reader.getNthAttributeNameAt(index, 1) != "class"; index++){
                 text = reader.getNthAttributeValueAt(index, 0);
@@ -76,7 +76,7 @@ bool BSEventOnFalseToTrueModifier::readData(const HkxXmlReader &reader, long & i
         }else if (text == "bVariableToTest2"){
             bVariableToTest2 = toBool(reader.getElementValueAt(index), &ok);
             checkvalue(ok, "bVariableToTest2");
-        }else if (text == "eventToSend2"){
+        }else if (text == "EventToSend2"){
             index++;
             for (; index < reader.getNumElements() && reader.getNthAttributeNameAt(index, 1) != "class"; index++){
                 text = reader.getNthAttributeValueAt(index, 0);
@@ -94,7 +94,7 @@ bool BSEventOnFalseToTrueModifier::readData(const HkxXmlReader &reader, long & i
         }else if (text == "bVariableToTest3"){
             bVariableToTest3 = toBool(reader.getElementValueAt(index), &ok);
             checkvalue(ok, "bVariableToTest3");
-        }else if (text == "eventToSend3"){
+        }else if (text == "EventToSend3"){
             index++;
             for (; index < reader.getNumElements() && reader.getNthAttributeNameAt(index, 1) != "class"; index++){
                 text = reader.getNthAttributeValueAt(index, 0);

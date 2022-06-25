@@ -216,8 +216,8 @@ bool BSLookAtModifier::write(HkxXMLWriter *writer){
         writedatafield("name", name);
         writedatafield("enable", getBoolAsString(enable));
         writedatafield("lookAtTarget", getBoolAsString(lookAtTarget));
-        list1 = {writer->name, writer->numelements};
-        list2 = {"bones", QString::number(bones.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"bones", QString::number(bones.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < bones.size(); i++){
             writer->writeLine(writer->object, true);
@@ -232,7 +232,7 @@ bool BSLookAtModifier::write(HkxXMLWriter *writer){
         if (bones.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list2 = {"eyeBones", QString::number(eyeBones.size())};
+        list2 = QStringList{"eyeBones", QString::number(eyeBones.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < eyeBones.size(); i++){
             writer->writeLine(writer->object, true);

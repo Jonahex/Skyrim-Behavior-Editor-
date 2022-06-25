@@ -85,7 +85,7 @@ bool BSRagdollContactListenerModifier::write(HkxXMLWriter *writer){
         writedatafield("userData", QString::number(userData));
         writedatafield("name", name);
         writedatafield("enable", getBoolAsString(enable));
-        writedatafield("event", "");
+        writedatafield("contactEvent", "");
         writer->writeLine(writer->object, true);
         writedatafield("id", QString::number(contactEvent.id));
         writeref(contactEvent.payload, "payload");

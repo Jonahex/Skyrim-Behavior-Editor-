@@ -72,7 +72,7 @@ QSize EventUI::minimumSizeHint() const{
 
 void EventUI::setEvent(int index, const QString & name){
     if (eventData && file){
-        eventData->id = --index;
+        eventData->id = index;
         selectEvent->setText(name);
         file->setIsChanged(true);
     }else{

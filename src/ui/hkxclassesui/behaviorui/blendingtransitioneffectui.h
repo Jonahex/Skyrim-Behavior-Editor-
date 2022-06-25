@@ -51,7 +51,7 @@ private slots:
 private:
     void toggleSignals(bool toggleconnections);
     void selectTableToView(bool viewproperties, const QString & path);
-    void setFlag(CheckBox *flagcheckbox, QString &flags, const QString &flagtocheck);
+    void setFlag(CheckBox *flagcheckbox, QString flags, const QString &flagtocheck);
 private:
     static const QStringList headerLabels;
     hkbBlendingTransitionEffect *bsData;

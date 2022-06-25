@@ -23,6 +23,8 @@ public:
     hkaSkeleton *getSkeleton(bool isragdoll) const;
     bool parse();
     HkxSharedPtr * findSkeleton(long ref);
+    int getRagdollSkeletonIndex() const;
+    int getRigSkeletonIndex() const;
 protected:
     bool link();
 private:

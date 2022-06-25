@@ -488,9 +488,9 @@ bool hkbBehaviorGraphData::write(HkxXMLWriter *writer){
         QStringList list1 = {writer->name, writer->clas, writer->signature};
         QStringList list2 = {getReferenceString(), getClassname(), "0x"+QString::number(getSignature(), 16)};
         writer->writeLine(writer->object, list1, list2, "");
-        list1 = {writer->name, writer->numelements};
-        list2 = {"attributeDefaults", QString::number(/*attributeDefaults.size()*/0)};
-        writer->writeLine(writer->object, list1, list2, "");
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"attributeDefaults", QString::number(/*attributeDefaults.size()*/0)};
+        writer->writeLine(writer->parameter, list1, list2, "");
         /*for (auto i = 0; i < attributeDefaults.size(); i++){
             //???
         }
@@ -498,8 +498,8 @@ bool hkbBehaviorGraphData::write(HkxXMLWriter *writer){
             writer->writeLine(writer->object, false);
         }
         writer->writeLine(writer->object, false);*/
-        list1 = {writer->name, writer->numelements};
-        list2 = {"variableInfos", QString::number(variableInfos.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"variableInfos", QString::number(variableInfos.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < variableInfos.size(); i++){
             writer->writeLine(writer->object, true);
@@ -515,8 +515,8 @@ bool hkbBehaviorGraphData::write(HkxXMLWriter *writer){
         if (variableInfos.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list1 = {writer->name, writer->numelements};
-        list2 = {"characterPropertyInfos", QString::number(characterPropertyInfos.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"characterPropertyInfos", QString::number(characterPropertyInfos.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < characterPropertyInfos.size(); i++){
             writer->writeLine(writer->object, true);
@@ -532,8 +532,8 @@ bool hkbBehaviorGraphData::write(HkxXMLWriter *writer){
         if (characterPropertyInfos.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list1 = {writer->name, writer->numelements};
-        list2 = {"eventInfos", QString::number(eventInfos.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"eventInfos", QString::number(eventInfos.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < eventInfos.size(); i++){
             writer->writeLine(writer->object, true);

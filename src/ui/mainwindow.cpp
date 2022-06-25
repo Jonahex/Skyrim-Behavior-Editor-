@@ -73,9 +73,6 @@ MainWindow::MainWindow()
     //setStyleSheet("QComboBox {background: yellow};QWidget {background: darkGray}");
     projectUI->setDisabled(true);
     hkxcmdPath = QDir::currentPath()+"/hkxcmd.exe";
-#ifdef QT_DEBUG
-    hkxcmdPath = "c:/users/wayne/desktop/hkxcmd.exe";
-#endif
     newProjectA->setStatusTip("Create a new character project!");
     newProjectA->setShortcut(QKeySequence::New);
     openPackedProjectA->setStatusTip("Open a hkx project file!");

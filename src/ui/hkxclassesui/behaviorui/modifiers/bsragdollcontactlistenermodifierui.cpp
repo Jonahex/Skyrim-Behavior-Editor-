@@ -111,7 +111,7 @@ void BSRagdollContactListenerModifierUI::connectToTables(GenericTableWidget *var
         connect(this, SIGNAL(viewVariables(int,QString,QStringList)), variables, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
         connect(this, SIGNAL(viewProperties(int,QString,QStringList)), properties, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
         connect(this, SIGNAL(viewEvents(int,QString,QStringList)), events, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
-        connect(boneIndexUI, SIGNAL(viewRagdollBones(int)), ragdollBones, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
+        boneIndexUI->connectToTables(ragdollBones);
     }else{
         LogFile::writeToLog("BSRagdollContactListenerModifierUI::connectToTables(): One or more arguments are nullptr!!");
     }
@@ -273,4 +273,9 @@ void BSRagdollContactListenerModifierUI::setBindingVariable(int index, const QSt
     }else{
         LogFile::writeToLog("BSRagdollContactListenerModifierUI::setBindingVariable(): The data is nullptr!!");
     }
+}
+
+void BSRagdollContactListenerModifierUI::returnToWidget()
+{
+    setCurrentIndex(MAIN_WIDGET);
 }

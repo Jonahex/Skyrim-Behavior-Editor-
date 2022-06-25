@@ -1,4 +1,7 @@
 #include "src/hkxclasses/hkxobject.h"
+
+#include <regex>
+
 #include "src/filetypes/behaviorfile.h"
 #include "src/xml/hkxxmlreader.h"
 #include "src/hkxclasses/behavior/hkbvariablebindingset.h"
@@ -343,60 +346,57 @@ hkQuadVariable HkxObject::readVector4(const QByteArray &lineIn, bool *ok) const{
 }
 
 hkQsTransform HkxObject::readQsTransform(const QByteArray &lineIn, bool *ok) const{
-    enum {V3_1_X, V3_1_Y, V3_1_Z, V4_X, V4_Y, V4_Z, V4_W, V3_2_X, V3_2_Y, V3_2_Z};
     hkQsTransform transform;
-    qreal number = 0;
-    auto size = V3_2_Z + 1;
-    auto leftparcount = 0;
-    auto rightparcount = 0;
-    auto dotcount = 0;
-    auto lineindex = 0;
-    QByteArray value("", size);
-    for (auto transformindex = 0; transformindex <= V3_2_Z; transformindex++){
-        auto valueindex = 0;
-        for (; lineindex < lineIn.size(); lineindex++, valueindex++){
-            valueindex >= size ? size = size*2, value.resize(size) : NULL;
-            if ((lineIn.at(lineindex) >= '0' && lineIn.at(lineindex) <= '9') || (lineIn.at(lineindex) == '-' && valueindex != 0)){
-                value[valueindex] = lineIn.at(lineindex);
-            }else if (lineIn.at(lineindex) == '.' && (!dotcount && valueindex > 0)){
-                value[valueindex] = lineIn.at(lineindex);
-                ++dotcount;
-            }else if (lineIn.at(lineindex) == '('){
-                ++leftparcount;
-            }else if (lineIn.at(lineindex) == ')'){
-                (leftparcount != ++rightparcount) ? (ok ? *ok = false : NULL) : valueindex = size;
-            }else if (lineIn.at(lineindex) == ' '){
-                valueindex = size;
-            }else{
-                ok ? *ok = false : NULL;
-                return hkQsTransform();
-            }
-        }
-        value.truncate(valueindex);
-        number = value.toDouble();
-        switch (transformindex){
-        case V3_1_X:
-            transform.v1.x = number; break;
-        case V3_1_Y:
-            transform.v1.y = number; break;
-        case V3_1_Z:
-            transform.v1.z = number; break;
-        case V4_X:
-            transform.v2.x = number; break;
-        case V4_Y:
-            transform.v2.y = number; break;
-        case V4_Z:
-            transform.v2.z = number; break;
-        case V4_W:
-            transform.v2.w = number; break;
-        case V3_2_X:
-            transform.v3.x = number; break;
-        case V3_2_Y:
-            transform.v3.y = number; break;
-        case V3_2_Z:
-            transform.v3.z = number; break;
-        }
+
+    std::regex matcher("\\((.+?)\\)");
+
+    std::string str = lineIn.toStdString();
+
+    std::vector<std::string> matches;
+    std::smatch match;
+    while (std::regex_search(str, match, matcher))
+    {
+        matches.push_back(match[1]);
+        str = match.suffix();
     }
+
+    if (matches.size() != 3)
+    {
+        *ok = false;
+        return transform;
+    }
+
+    const QStringList v1split = QString::fromStdString(matches[0]).split(' ', Qt::SkipEmptyParts);
+    if (v1split.size() != 3)
+    {
+        *ok = false;
+        return transform;
+    }
+    transform.v1.x = v1split[0].toDouble(ok);
+    transform.v1.y = v1split[1].toDouble(ok);
+    transform.v1.z = v1split[2].toDouble(ok);
+
+    const QStringList v2split = QString::fromStdString(matches[1]).split(' ', Qt::SkipEmptyParts);
+    if (v2split.size() != 4)
+    {
+        *ok = false;
+        return transform;
+    }
+    transform.v2.x = v2split[0].toDouble(ok);
+    transform.v2.y = v2split[1].toDouble(ok);
+    transform.v2.z = v2split[2].toDouble(ok);
+    transform.v2.w = v2split[3].toDouble(ok);
+
+    const QStringList v3split = QString::fromStdString(matches[2]).split(' ', Qt::SkipEmptyParts);
+    if (v3split.size() != 3)
+    {
+        *ok = false;
+        return transform;
+    }
+    transform.v3.x = v3split[0].toDouble(ok);
+    transform.v3.y = v3split[1].toDouble(ok);
+    transform.v3.z = v3split[2].toDouble(ok);
+
     return transform;
 }
 

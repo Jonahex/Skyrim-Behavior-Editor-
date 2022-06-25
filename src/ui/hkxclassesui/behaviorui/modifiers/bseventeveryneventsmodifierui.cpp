@@ -179,7 +179,7 @@ void BSEventEveryNEventsModifierUI::setEnable(){
 
 void BSEventEveryNEventsModifierUI::setEventToCheckForId(int index, const QString & name){
     if (bsData){
-        bsData->setEventToCheckForID(index - 1);
+        bsData->setEventToCheckForID(index);
         table->item(EVENT_TO_CHECK_FOR_ID_ROW, VALUE_COLUMN)->setText(name);
     }else{
         LogFile::writeToLog("BSEventEveryNEventsModifierUI::seteventToCheckForId(): The data is nullptr!!");
@@ -206,7 +206,7 @@ void BSEventEveryNEventsModifierUI::setEventToCheckForPayload(){
 
 void BSEventEveryNEventsModifierUI::setEventToSendId(int index, const QString &name){
     if (bsData){
-        bsData->setEventToSendID(index - 1);
+        bsData->setEventToSendID(index);
         table->item(EVENT_TO_SEND_ID_ROW, VALUE_COLUMN)->setText(name);
     }else{
         LogFile::writeToLog("BSEventEveryNEventsModifierUI::setEventToSendId(): The data is nullptr!!");

@@ -180,7 +180,7 @@ void PoweredRagdollControlsModifierUI::connectToTables(GenericTableWidget *varia
         connect(ragdollBones, SIGNAL(elementSelected(int,QString)), boneIndexUI, SLOT(setRagdollBone(int,QString)), Qt::UniqueConnection);
         connect(this, SIGNAL(viewVariables(int,QString,QStringList)), variables, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
         connect(this, SIGNAL(viewProperties(int,QString,QStringList)), properties, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
-        connect(boneIndexUI, SIGNAL(viewRagdollBones(int)), ragdollBones, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
+        boneIndexUI->connectToTables(ragdollBones);
     }else{
         LogFile::writeToLog("PoweredRagdollControlsModifierUI::connectToTables(): One or more arguments are nullptr!!");
     }

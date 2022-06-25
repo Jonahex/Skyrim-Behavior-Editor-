@@ -30,7 +30,7 @@ protected:
     MainWindow *getUI() const;
     virtual bool parse();
     virtual bool link();
-    void setRootObject(HkxSharedPtr & obj);
+    void setRootObject(HkxSharedPtr obj);
     bool appendAndReadData(long & index, HkxObject * obj);
     HkxXmlReader & getReader();
     HkxXMLWriter & getWriter();

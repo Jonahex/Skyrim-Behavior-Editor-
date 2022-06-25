@@ -90,6 +90,7 @@ bool HkxXMLWriter::writeLine(const QString & tag, const QStringList & attribs, c
         }else{
             stream << ">"+value+"</"+tag+">\n";
         }
+        stream.flush();
         return true;
     }else{
         LogFile::writeToLog("HkxXMLWriter: writeLine()!\nXML tag is null or the number of attributes does not match the number of attribute values!!!");
@@ -113,6 +114,7 @@ bool HkxXMLWriter::writeLine(const QString & tag, bool opening){
             appendtabs();
             stream << text+"</"+tag+">\n";
         }
+        stream.flush();
         return true;
     }else{
         LogFile::writeToLog("HkxXMLWriter: writeLine()!\nXML tag is null!!!");
@@ -137,5 +139,6 @@ bool HkxXMLWriter::writeLine(const QString & value){
     }else{
         stream << "\n";
     }
+    stream.flush();
     return true;
 }

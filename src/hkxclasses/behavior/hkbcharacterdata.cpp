@@ -318,8 +318,8 @@ bool hkbCharacterData::write(HkxXMLWriter *writer){
         writeref(characterControllerInfo.characterControllerCinfo, "characterControllerCinfo");
         writer->writeLine(writer->object, false);
         writer->writeLine(writer->parameter, false);
-        list1 = {writer->name, writer->numelements};
-        list2 = {"characterPropertyInfos", QString::number(characterPropertyInfos.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"characterPropertyInfos", QString::number(characterPropertyInfos.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < characterPropertyInfos.size(); i++){
             writer->writeLine(writer->object, true);
@@ -335,8 +335,8 @@ bool hkbCharacterData::write(HkxXMLWriter *writer){
         if (characterPropertyInfos.size() > 0){
             writer->writeLine(writer->parameter, false);
         }
-        list1 = {writer->name, writer->numelements};
-        list2 = {"numBonesPerLod", QString::number(numBonesPerLod.size())};
+        list1 = QStringList{writer->name, writer->numelements};
+        list2 = QStringList{"numBonesPerLod", QString::number(numBonesPerLod.size())};
         writer->writeLine(writer->parameter, list1, list2, "");
         for (auto i = 0; i < numBonesPerLod.size(); i++){
             writer->writeLine(writer->string, QStringList(), QStringList(), QString::number(numBonesPerLod.at(i)));
