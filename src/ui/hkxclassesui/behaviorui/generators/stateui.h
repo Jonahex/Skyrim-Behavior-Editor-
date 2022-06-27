@@ -33,7 +33,7 @@ public:
     ~StateUI() = default;
 public:
     void loadData(HkxObject *data, int stateindex);
-    void connectToTables(GenericTableWidget *generators, GenericTableWidget *events);
+    void connectToTables(GenericTableWidget *generators, GenericTableWidget* variables, GenericTableWidget* properties, GenericTableWidget *events);
     void eventRenamed(const QString & name, int index);
     void setBehaviorView(BehaviorGraphView *view);
     void generatorRenamed(const QString & name, int index);
@@ -57,12 +57,12 @@ private slots:
     void returnToWidget();
     void transitionRenamed(const QString &name, int index);
     void generatorTableElementSelected(int index, const QString &name);
+    void variableTableElementSelected(int index, const QString& name);
 private:
     void toggleSignals(bool toggleconnections);
     void removeEvent(HkxSharedPtr & eventarray, int index);
     void addEvent(HkxSharedPtr & eventarray);
     void setGenerator(int index, const QString &name);
-    void variableTableElementSelected(int index, const QString &name);
     void addEnterEvent();
     void removeEnterEvent(int index);
     void addExitEvent();

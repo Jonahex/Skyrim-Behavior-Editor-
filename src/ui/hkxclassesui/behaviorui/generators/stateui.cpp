@@ -254,14 +254,20 @@ void StateUI::generatorTableElementSelected(int index, const QString &name){
     }
 }
 
-void StateUI::connectToTables(GenericTableWidget *generators, GenericTableWidget *events){
+void StateUI::connectToTables(GenericTableWidget *generators, GenericTableWidget* variables, GenericTableWidget* properties, GenericTableWidget *events){
     if (generators && events){
         disconnect(events, SIGNAL(elementSelected(int,QString)), 0, 0);
         disconnect(generators, SIGNAL(elementSelected(int,QString)), 0, 0);
+        disconnect(variables, SIGNAL(elementSelected(int, QString)), 0, 0);
+        disconnect(properties, SIGNAL(elementSelected(int, QString)), 0, 0);
         connect(events, SIGNAL(elementSelected(int,QString)), this, SLOT(eventTableElementSelected(int,QString)), Qt::UniqueConnection);
         connect(generators, SIGNAL(elementSelected(int,QString)), this, SLOT(generatorTableElementSelected(int,QString)), Qt::UniqueConnection);
+        connect(variables, SIGNAL(elementSelected(int, QString)), this, SLOT(variableTableElementSelected(int, QString)), Qt::UniqueConnection);
+        connect(properties, SIGNAL(elementSelected(int, QString)), this, SLOT(variableTableElementSelected(int, QString)), Qt::UniqueConnection);
         connect(this, SIGNAL(viewGenerators(int,QString,QStringList)), generators, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
         connect(this, SIGNAL(viewEvents(int,QString,QStringList)), events, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
+        connect(this, SIGNAL(viewProperties(int, QString, QStringList)), variables, SLOT(showTable(int, QString, QStringList)), Qt::UniqueConnection);
+        connect(this, SIGNAL(viewVariables(int, QString, QStringList)), properties, SLOT(showTable(int, QString, QStringList)), Qt::UniqueConnection);
     }else{
         LogFile::writeToLog("StateUI::connectToTables(): One or more arguments are nullptr!!");
     }
@@ -296,9 +302,8 @@ void StateUI::setStateId(int id){
 void StateUI::setProbability(){
     (bsData) ? bsData->setProbability(probability->value()) : LogFile::writeToLog("StateUI::setProbability(): The data is nullptr!!");
 }
-
 void StateUI::setEnable(){
-    (bsData) ? bsData->setProbability(enable->isChecked()) : LogFile::writeToLog("StateUI::setEnable(): The data is nullptr!!");
+    (bsData) ? bsData->setEnable(enable->isChecked()) : LogFile::writeToLog("StateUI::setEnable(): The data is nullptr!!");
 }
 
 void StateUI::addEvent(HkxSharedPtr & eventarray){  //Make sure bsData is not nullptr before using this function!!

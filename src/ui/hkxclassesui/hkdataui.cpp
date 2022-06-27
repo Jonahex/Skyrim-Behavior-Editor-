@@ -955,7 +955,7 @@ void HkDataUI::changeCurrentDataWidget(TreeGraphicsItem * icon){
             {
                 (loadedData != oldData) ? stateUI->loadData(loadedData, static_cast<hkbStateMachineStateInfo *>(loadedData)->getStateId()) : NULL;
                 stack->setCurrentIndex(DATA_TYPE_LOADED::STATE);
-                stateUI->connectToTables(generatorsTable, eventsTable);
+                stateUI->connectToTables(generatorsTable, variablesTable, characterPropertiesTable, eventsTable);
                 break;
             }
             case HkxSignature::HKB_STATE_MACHINE:
