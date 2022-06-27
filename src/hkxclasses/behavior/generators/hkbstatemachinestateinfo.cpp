@@ -123,7 +123,7 @@ bool hkbStateMachineStateInfo::setStateId(int id){
         auto states = parentSM->getChildren();
         for (auto i = 0; i < states.size(); i++){
             state = static_cast<hkbStateMachineStateInfo *>(states.at(i));
-            if (state && state->getStateId() == id){
+            if (state && state != this && state->getStateId() == id){
                 return false;
             }
         }

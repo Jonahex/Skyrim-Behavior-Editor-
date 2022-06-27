@@ -300,6 +300,7 @@ void StateMachineUI::setName(const QString &newname){
     if (bsData){
         bsData->setName(newname);
         bsData->updateIconNames();
+        QSignalBlocker signalBlocker(this);
         emit generatorNameChanged(name->text(), static_cast<BehaviorFile *>(bsData->getParentFile())->getIndexOfGenerator(bsData));
     }else{
         LogFile::writeToLog("StateMachineUI::setName(): The data is nullptr!!");
@@ -310,8 +311,17 @@ void StateMachineUI::setReturnToPreviousStateEventId(int index, const QString & 
     (bsData) ? bsData->setReturnToPreviousStateEventId(index), table->item(RETURN_TO_PREVIOUS_STATE_EVENT_ID_ROW, VALUE_COLUMN)->setText(name) : LogFile::writeToLog("StateMachineUI::setReturnToPreviousStateEventId(): The data is nullptr!!");
 }
 
-void StateMachineUI::setStartStateId(int index){
-    (bsData) ? bsData->setStartStateId(index) : LogFile::writeToLog("StateMachineUI::setStartStateId(): The data is nullptr!!");
+void StateMachineUI::setStartStateId(int index)
+{
+    if (bsData)
+    {
+        const int stateIndex = bsData->getStateId(startStateId->itemText(index));
+        bsData->setStartStateId(stateIndex);
+    }
+    else
+    {
+        LogFile::writeToLog("StateMachineUI::setStartStateId(): The data is nullptr!!");
+    }
 }
 
 void StateMachineUI::setRandomTransitionEventId(int index, const QString & name){

@@ -590,7 +590,7 @@ int hkbStateMachine::getStartStateId() const{
 
 void hkbStateMachine::setStartStateId(int value){
     std::lock_guard <std::mutex> guard(mutex);
-    (value != startStateId && value < states.size() && value > -1) ? startStateId = value, setIsFileChanged(true) : LogFile::writeToLog(getClassname()+": 'startStateId' was not set!");
+    (value != startStateId && value > -1) ? startStateId = value, setIsFileChanged(true) : LogFile::writeToLog(getClassname()+": 'startStateId' was not set!");
 }
 
 void hkbStateMachine::setName(const QString &newname){

@@ -344,7 +344,7 @@ void loadBinding(int row, int column, hkbVariableBindingSet *varBind, const QStr
     }
 }
 
-void setGenerator(int index, const QString &name, DataIconManager *dynobj, hkbGenerator *child, HkxSignature sig, HkxObject::HkxType type, TableWidget *table, BehaviorGraphView *behaviorView, int row, int column){
+void setGenerator(int index, const QString &name, DataIconManager *dynobj, hkbGenerator *child, HkxSignature sig, HkxObject::HkxType type, TableWidget *table, BehaviorGraphView *behaviorView, int row, int column, int replaceIndex){
     if (table){
         if (dynobj){
             auto indexOfGenerator = dynobj->getIndexOfObj(static_cast<DataIconManager*>(child));
@@ -356,7 +356,7 @@ void setGenerator(int index, const QString &name, DataIconManager *dynobj, hkbGe
                         LogFile::writeToLog("setGenerator():The name of the selected object does not match it's name in the object selection table!!!");
                     }else if ((signature == NULL_SIGNATURE && signature != sig) || (type != HkxObject::TYPE_GENERATOR)){
                         WARNING_MESSAGE("I'M SORRY HAL BUT I CAN'T LET YOU DO THAT.\nThe selected object is an incorrect type!!!");
-                    }else if (ptr == dynobj || !behaviorView->reconnectIcon(behaviorView->getSelectedItem(), static_cast<DataIconManager*>(child), 0, ptr, false)){
+                    }else if (ptr == dynobj || !behaviorView->reconnectIcon(behaviorView->getSelectedItem(), static_cast<DataIconManager*>(child), replaceIndex, ptr, false)){
                         WARNING_MESSAGE("I'M SORRY HAL BUT I CAN'T LET YOU DO THAT.\nYou are attempting to create a circular branch or dead end!!!");
                     }
                 }else{

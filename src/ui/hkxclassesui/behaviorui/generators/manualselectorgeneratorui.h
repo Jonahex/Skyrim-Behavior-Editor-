@@ -77,6 +77,7 @@ private:
     SpinBox *selectedGeneratorIndex;
     SpinBox *currentGeneratorIndex;
     ComboBox *typeSelectorCB;
+    int selectedIndex = -1;
 };
 
 #endif // MANUALSELECTORGENERATORUI_H

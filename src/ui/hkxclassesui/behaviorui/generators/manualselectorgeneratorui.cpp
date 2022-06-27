@@ -285,7 +285,8 @@ void ManualSelectorGeneratorUI::viewSelectedChild(int row, int column){
             if (bsData->generators.size() > result && result >= 0){
                 if (column == VALUE_COLUMN){
                     QStringList list = {hkbStateMachineStateInfo::getClassname(), hkbBlenderGeneratorChild::getClassname(), BSBoneSwitchGeneratorBoneData::getClassname()};
-                    emit viewGenerators(bsData->getIndexOfGenerator(bsData->generators.at(result)) + 1, QString(), list);
+                    selectedIndex = result;
+                	emit viewGenerators(bsData->getIndexOfGenerator(bsData->generators.at(result)) + 1, QString(), list);
                 }else if (column == BINDING_COLUMN){
                     if (MainWindow::yesNoDialogue("Are you sure you want to remove the generator \""+table->item(row, NAME_COLUMN)->text()+"\"?") == QMessageBox::Yes){
                         removeGenerator(result);
@@ -315,8 +316,9 @@ void ManualSelectorGeneratorUI::swapGeneratorIndices(int index1, int index2){
 }
 
 void ManualSelectorGeneratorUI::setGenerator(int index, const QString &name){
-    if (index < bsData->generators.size() && index >= 0){
-        UIHelper::setGenerator(index, name, bsData, static_cast<hkbGenerator *>(bsData->generators.at(index).data()), NULL_SIGNATURE, HkxObject::TYPE_GENERATOR, table, behaviorView, (ADD_GENERATOR_ROW + index + 1), VALUE_COLUMN);
+    if (selectedIndex >= 0 && index >= 0){
+        UIHelper::setGenerator(index, name, bsData, static_cast<hkbGenerator *>(bsData->generators.at(selectedIndex).data()), NULL_SIGNATURE, HkxObject::TYPE_GENERATOR, table, behaviorView, (ADD_GENERATOR_ROW + selectedIndex + 1), VALUE_COLUMN, selectedIndex);
+        loadDynamicTableRows();
     }else{
         LogFile::writeToLog("ManualSelectorGeneratorUI::setGenerator(): Invalid generator index selected!!");
     }

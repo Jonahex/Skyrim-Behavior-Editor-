@@ -258,10 +258,12 @@ void TransitionsUI::loadData(BehaviorFile *parentfile, hkbStateMachine *parent, 
         priority->setValue(bsData->priority);
         auto flags = bsData->flags.split("|");
         flagGlobalWildcard->setChecked(false);
+        flagLocalWildcard->setChecked(false);
         flagUseNestedState->setChecked(false);
         flagDisallowRandomTransition->setChecked(false);
         flagDisallowReturnToState->setChecked(false);
         flagAbutEndState->setChecked(false);
+        flagAllowSelfTransition->setChecked(false);
         toNestedStateId->setDisabled(true);
         if (flags.isEmpty()){
             if (bsData->flags == "FLAG_IS_GLOBAL_WILDCARD"){

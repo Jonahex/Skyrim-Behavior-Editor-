@@ -260,6 +260,7 @@ void ModifierListUI::setName(const QString &newname){
     if (bsData){
         bsData->setName(newname);
         bsData->updateIconNames();
+        QSignalBlocker signalBlocker(this);
         emit modifierNameChanged(name->text(), static_cast<BehaviorFile *>(bsData->getParentFile())->getIndexOfModifier(bsData));
     }else{
         LogFile::writeToLog("ModifierListUI::setName(): The data is nullptr!!");

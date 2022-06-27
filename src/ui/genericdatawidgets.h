@@ -493,7 +493,7 @@ namespace UIHelper{
 void setRowItems(int row, const QString & name, const QString & classname, const QString & bind, const QString & value, const QString & tip1, const QString & tip2, TableWidget *table);
 void setBinding(int index, int row, int column, const QString & variableName, const QString & path, hkVariableType type, bool isProperty, TableWidget *table, HkDynamicObject *bsData);
 void loadBinding(int row, int column, hkbVariableBindingSet *varBind, const QString &path, TableWidget *table, HkxObject *bsData);
-void setGenerator(int index, const QString &name, DataIconManager *dynobj, hkbGenerator *child, HkxSignature sig, HkxObject::HkxType type, TableWidget *table, BehaviorGraphView *behaviorView, int row, int column);
+void setGenerator(int index, const QString &name, DataIconManager *dynobj, hkbGenerator *child, HkxSignature sig, HkxObject::HkxType type, TableWidget *table, BehaviorGraphView *behaviorView, int row, int column, int replaceIndex = 0);
 void setModifier(int index, const QString &name, DataIconManager *dynobj, hkbModifier *child, HkxSignature sig, HkxObject::HkxType type, TableWidget *table, BehaviorGraphView *behaviorView, int row, int column);
 
 }
