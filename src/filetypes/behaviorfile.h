@@ -15,6 +15,7 @@ class hkbBehaviorReferenceGenerator;
 class hkbBoneWeightArray;
 class hkbStateMachine;
 class DataIconManager;
+class hkbBlendingTransitionEffect;
 
 class BehaviorFile final: public HkxFile
 {
@@ -38,6 +39,8 @@ public:
     QStringList getGeneratorTypeNames() const;
     QStringList getModifierNames() const;
     QStringList getModifierTypeNames() const;
+    QStringList getTransitionEffectNames() const;
+    QStringList getTransitionEffectTypeNames() const;
     int getCharacterPropertyIndexFromBehavior(const QString & name) const;
     int getCharacterPropertyIndex(const QString &name) const;
     int findCharacterPropertyIndexFromCharacter(int indexOfBehaviorProperty) const;
@@ -78,6 +81,7 @@ public:
     bool addObjectToFile(HkxObject *obj, long ref = -1);
     hkbGenerator * getGeneratorDataAt(int index);
     hkbModifier * getModifierDataAt(int index);
+    hkbBlendingTransitionEffect* getTransitionEffectAt(int index) const;
     QVector<int> removeGeneratorData();
     QVector<int> removeModifierData();
     QVector<int> removeOtherData();

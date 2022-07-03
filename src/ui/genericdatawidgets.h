@@ -122,7 +122,7 @@ public:
     CheckButtonCombo(const CheckButtonCombo &) = delete;
     ~CheckButtonCombo() = default;
 public:
-    CheckButtonCombo(const QString & buttontip = "", const QString & boxtext = "Enable:", bool disablebutton = true, const QString & buttontext = "Edit", QWidget * par = 0)
+    CheckButtonCombo(const QString & buttontip = "", bool hasChoiceButton = false, const QString & boxtext = "Enable:", bool disablebutton = true, const QString & buttontext = "Edit", QWidget * par = 0)
         : QWidget(par),
           label(new QLabel(boxtext)),
           checkBox(new CheckBox),
@@ -139,6 +139,14 @@ public:
         lyt->addWidget(label, 1);
         lyt->addWidget(checkBox, 1);
         lyt->addWidget(pushButton, 6);
+        if (hasChoiceButton)
+        {
+            choiceButton = new QPushButton("Choose");
+            choiceButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+            choiceButton->setDisabled(disablebutton);
+            connect(choiceButton, SIGNAL(clicked(bool)), this, SIGNAL(choicePressed()), Qt::UniqueConnection);
+            lyt->addWidget(choiceButton, 6);
+        }
         lyt->setContentsMargins(0,0,0,0);
         setLayout(lyt);
         connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(setChecked(bool)), Qt::UniqueConnection);
@@ -154,11 +162,18 @@ public:
     }
 signals:
     void pressed();
+    void choicePressed();
     void enabled(bool enabled);
 public slots:
-    void setChecked(bool checked){
-        if (disableButton){
+    void setChecked(bool checked)
+	{
+        if (disableButton)
+        {
             pushButton->setEnabled(checked);
+            if (choiceButton)
+            {
+                choiceButton->setEnabled(checked);
+            }
         }
         disconnect(checkBox, SIGNAL(clicked(bool)), this, SLOT(setChecked(bool)));
         checkBox->setChecked(checked);
@@ -169,6 +184,7 @@ private:
     QLabel *label;
     CheckBox *checkBox;
     QPushButton *pushButton;
+    QPushButton* choiceButton = nullptr;
     bool disableButton;
 };
 

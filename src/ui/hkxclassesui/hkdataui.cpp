@@ -181,6 +181,7 @@ HkDataUI::HkDataUI(const QString &title)
       characterPropertiesTable(new GenericTableWidget("Select a Character Property!")),
       animationsTable(new GenericTableWidget("Select an Animation!")),
       ragdollBonesTable(new GenericTableWidget("Select a Ragdoll Bone!")),
+	  transitionEffectsTable(new GenericTableWidget("Select a Transition Effect!")),
       noDataL(new QLabel("No Data Selected!")),
       iStateTagGenUI(new BSiStateTaggingGeneratorUI),
       modGenUI(new ModifierGeneratorUI),
@@ -411,6 +412,7 @@ void HkDataUI::unloadDataWidget(){
     disconnect(modifiersTable, SIGNAL(elementSelected(int,QString)), 0, 0);
     disconnect(eventsTable, SIGNAL(elementSelected(int,QString)), 0, 0);
     disconnect(ragdollBonesTable, SIGNAL(elementSelected(int,QString)), 0, 0);
+    disconnect(transitionEffectsTable, SIGNAL(elementSelected(int, QString)), 0, 0);
     loadedData = nullptr;
     stack->setCurrentIndex(DATA_TYPE_LOADED::NO_DATA_SELECTED);
 }
@@ -920,27 +922,6 @@ void HkDataUI::variableRemoved(int index){
     behaviorView->removeOtherData();
 }
 
-template<typename UIWidget>
-void HkDataUI::changeWidget(HkDataUI::DATA_TYPE_LOADED type, HkxObject *olddata, UIWidget *uiwidget, GenericTableWidget *table1, GenericTableWidget *table2){
-    (loadedData != olddata) ? uiwidget->loadData(loadedData) : NULL;
-    stack->setCurrentIndex(type);
-    uiwidget->connectToTables(table1, table2);
-}
-
-template<typename UIWidget>
-void HkDataUI::changeWidget(HkDataUI::DATA_TYPE_LOADED type, HkxObject *olddata, UIWidget *uiwidget, GenericTableWidget *table1, GenericTableWidget *table2, GenericTableWidget *table3){
-    (loadedData != olddata) ? uiwidget->loadData(loadedData) : NULL;
-    stack->setCurrentIndex(type);
-    uiwidget->connectToTables(table1, table2, table3);
-}
-
-template<typename UIWidget>
-void HkDataUI::changeWidget(HkDataUI::DATA_TYPE_LOADED type, HkxObject *olddata, UIWidget *uiwidget, GenericTableWidget *table1, GenericTableWidget *table2, GenericTableWidget *table3, GenericTableWidget *table4){
-    (loadedData != olddata) ? uiwidget->loadData(loadedData) : NULL;
-    stack->setCurrentIndex(type);
-    uiwidget->connectToTables(table1, table2, table3, table4);
-}
-
 void HkDataUI::changeCurrentDataWidget(TreeGraphicsItem * icon){
     if (icon){
         auto icondata = icon->getItemData();
@@ -955,11 +936,11 @@ void HkDataUI::changeCurrentDataWidget(TreeGraphicsItem * icon){
             {
                 (loadedData != oldData) ? stateUI->loadData(loadedData, static_cast<hkbStateMachineStateInfo *>(loadedData)->getStateId()) : NULL;
                 stack->setCurrentIndex(DATA_TYPE_LOADED::STATE);
-                stateUI->connectToTables(generatorsTable, variablesTable, characterPropertiesTable, eventsTable);
+                stateUI->connectToTables(generatorsTable, variablesTable, characterPropertiesTable, eventsTable, transitionEffectsTable);
                 break;
             }
             case HkxSignature::HKB_STATE_MACHINE:
-                changeWidget(DATA_TYPE_LOADED::STATE_MACHINE, oldData, stateMachineUI, generatorsTable, variablesTable, characterPropertiesTable, eventsTable); break;
+                changeWidget(DATA_TYPE_LOADED::STATE_MACHINE, oldData, stateMachineUI, generatorsTable, variablesTable, characterPropertiesTable, eventsTable, transitionEffectsTable); break;
             case HkxSignature::HKB_MANUAL_SELECTOR_GENERATOR:
                 changeWidget(DATA_TYPE_LOADED::MANUAL_SELECTOR_GENERATOR, oldData, manSelGenUI, generatorsTable, variablesTable, characterPropertiesTable); break;
             case HkxSignature::HKB_MODIFIER_GENERATOR:
@@ -1147,6 +1128,7 @@ BehaviorGraphView *HkDataUI::loadBehaviorView(BehaviorGraphView *view){
         eventsTable->loadTable(behaviorView->getBehavior()->getEventNames(), "", "NONE");
         ragdollBonesTable->loadTable(behaviorView->getBehavior()->getRagdollBoneNames(), "", "NONE");//inefficient...
         characterPropertiesTable->loadTable(behaviorView->getBehavior()->getCharacterPropertyNames(), behaviorView->getBehavior()->getCharacterPropertyTypenames(), "NONE");//inefficient...
+        transitionEffectsTable->loadTable(behaviorView->getBehavior()->getTransitionEffectNames(), behaviorView->getBehavior()->getTransitionEffectTypeNames(), "New...");//inefficient...
         connect(behaviorView, SIGNAL(addedGenerator(QString,QString)), this, SLOT(generatorAdded(QString,QString)), Qt::UniqueConnection);
         connect(behaviorView, SIGNAL(addedModifier(QString,QString)), this, SLOT(modifierAdded(QString,QString)), Qt::UniqueConnection);
         connect(behaviorView, SIGNAL(removedGenerator(int)), this, SLOT(generatorRemoved(int)), Qt::UniqueConnection);

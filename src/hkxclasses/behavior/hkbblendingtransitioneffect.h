@@ -11,6 +11,7 @@ public:
     hkbBlendingTransitionEffect& operator=(const hkbBlendingTransitionEffect&) = delete;
     hkbBlendingTransitionEffect(const hkbBlendingTransitionEffect &) = delete;
     ~hkbBlendingTransitionEffect();
+    static QString getClassname();
 public:
     bool operator==(const hkbBlendingTransitionEffect & other) const;
 public:
@@ -36,7 +37,6 @@ private:
     bool readData(const HkxXmlReader & reader, long & index);
     void unlink();
     QString evaluateDataValidity();
-    static QString getClassname();
     bool write(HkxXMLWriter *writer);
     QVector <HkxObject *> getChildrenOtherTypes() const;
 private:

@@ -64,7 +64,7 @@ TransitionsUI::TransitionsUI()
       exitTimeTI(new DoubleSpinBox),
       enterTimeII(new DoubleSpinBox),
       exitTimeII(new DoubleSpinBox),
-      transition(new CheckButtonCombo("Edit")),
+      transition(new CheckButtonCombo("Edit", true)),
       condition(new ConditionLineEdit),
       toStateId(new ComboBox),
       fromNestedStateId(new ComboBox),
@@ -168,6 +168,7 @@ void TransitionsUI::toggleSignals(bool toggleconnections){
         connect(exitTimeII, SIGNAL(editingFinished()), this, SLOT(setInitiateIntervalExitTime()), Qt::UniqueConnection);
         connect(transition, SIGNAL(pressed()), this, SLOT(viewTransitionEffect()), Qt::UniqueConnection);
         connect(transition, SIGNAL(enabled(bool)), this, SLOT(toggleTransitionEffect(bool)), Qt::UniqueConnection);
+        connect(transition, &CheckButtonCombo::choicePressed, this, &TransitionsUI::showTransitions, Qt::UniqueConnection);
         connect(condition, SIGNAL(editingFinished()), this, SLOT(setCondition()), Qt::UniqueConnection);
         connect(toStateId, SIGNAL(currentIndexChanged(QString)), this, SLOT(setToStateId(QString)), Qt::UniqueConnection);
         connect(fromNestedStateId, SIGNAL(currentIndexChanged(QString)), this, SLOT(setFromNestedStateId(QString)), Qt::UniqueConnection);
@@ -193,6 +194,7 @@ void TransitionsUI::toggleSignals(bool toggleconnections){
         disconnect(exitTimeII, SIGNAL(editingFinished()), this, SLOT(setInitiateIntervalExitTime()));
         disconnect(transition, SIGNAL(pressed()), this, SLOT(viewTransitionEffect()));
         disconnect(transition, SIGNAL(enabled(bool)), this, SLOT(toggleTransitionEffect(bool)));
+        disconnect(transition, &CheckButtonCombo::choicePressed, this, &TransitionsUI::showTransitions);
         disconnect(condition, SIGNAL(editingFinished()), this, SLOT(setCondition()));
         disconnect(toStateId, SIGNAL(currentIndexChanged(QString)), this, SLOT(setToStateId(QString)));
         disconnect(fromNestedStateId, SIGNAL(currentIndexChanged(QString)), this, SLOT(setFromNestedStateId(QString)));
@@ -612,6 +614,30 @@ void TransitionsUI::variableTableElementSelected(int index, const QString &name)
     }
 }
 
+void TransitionsUI::transitionEffectsTableElementSelected(int index, const QString& name) {
+    if (bsData) 
+    {
+        hkbBlendingTransitionEffect* effect = nullptr;
+        if (index == 0)
+        {
+            effect = new hkbBlendingTransitionEffect(parentObj->getParentFile());
+        }
+        else
+        {
+            BehaviorFile* behavior = static_cast<BehaviorFile*>(parentObj->getParentFile());
+            effect = behavior->getTransitionEffectAt(index - 1);
+        }
+        if (effect != nullptr)
+        {
+            bsData->transition = HkxSharedPtr(effect);
+            transition->setText(effect->getName());
+        }
+    }
+    else {
+        LogFile::writeToLog("TransitionsUI::transitionEffectsTableElementSelected(): The data is nullptr!!");
+    }
+}
+
 void TransitionsUI::returnToWidget(){
     setCurrentIndex(TRANSITION_WIDGET);
 }
@@ -660,4 +686,9 @@ void TransitionsUI::eventRenamed(const QString &name, int index){
     }else{
         LogFile::writeToLog("TransitionsUI::eventRenamed(): The data is nullptr!!");
     }
+}
+
+void TransitionsUI::showTransitions()
+{
+    emit viewTransitions(-1, QString(), QStringList());
 }

@@ -42,6 +42,7 @@ signals:
     void viewEvents(int index, const QString & typeallowed, const QStringList &typesdisallowed);
     void viewVariables(int index, const QString & typeallowed, const QStringList &typesdisallowed);
     void viewProperties(int index, const QString & typeallowed, const QStringList &typesdisallowed);
+    void viewTransitions(int index, const QString& typeallowed, const QStringList& typesdisallowed);
     void returnToParent();
 private slots:
     void setTriggerIntervalEnterTime();
@@ -65,10 +66,12 @@ private slots:
     void returnToWidget();
     void viewSelectedChild(int row, int column);
     void transitionEffectRenamed(const QString & name);
+    void showTransitions();
 private:
     void toggleSignals(bool toggleconnections);
     void eventTableElementSelected(int index, const QString &name);
     void variableTableElementSelected(int index, const QString &name);
+    void transitionEffectsTableElementSelected(int index, const QString& name);
     void setTriggerIntervalEnterEventId(int index, const QString &name);
     void setTriggerIntervalExitEventId(int index, const QString &name);
     void setInitiateIntervalEnterEventId(int index, const QString &name);

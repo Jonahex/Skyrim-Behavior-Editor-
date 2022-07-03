@@ -38,13 +38,14 @@ public:
     void eventRenamed(const QString & name, int index);
     void generatorRenamed(const QString & name, int index);
     void setBehaviorView(BehaviorGraphView *view);
-    void connectToTables(GenericTableWidget *generators, GenericTableWidget *variables, GenericTableWidget *properties, GenericTableWidget *events);
+    void connectToTables(GenericTableWidget *generators, GenericTableWidget *variables, GenericTableWidget *properties, GenericTableWidget *events, GenericTableWidget* transitionEffects);
 signals:
     void generatorNameChanged(const QString & newName, int index);
     void viewVariables(int index, const QString & typeallowed, const QStringList &typesdisallowed);
     void viewProperties(int index, const QString & typeallowed, const QStringList &typesdisallowed);
     void viewEvents(int index, const QString & typeallowed, const QStringList &typesdisallowed);
     void viewGenerators(int index, const QString & typeallowed, const QStringList &typesdisallowed);
+    void viewTransitions(int index, const QString& typeallowed, const QStringList& typesdisallowed);
 private slots:
     void setName(const QString &newname);
     void setStartStateId(int index);
@@ -62,6 +63,7 @@ private slots:
     void eventTableElementSelected(int index, const QString &name);
     void variableTableElementSelected(int index, const QString &name);
     void generatorTableElementSelected(int index, const QString &name);
+    void transitionEffectsTableElementSelected(int index, const QString& name);
     void returnToWidget(bool reloadData);
     void returnToWidget();
     void viewEventToSendWhenStateOrTransitionChanges();

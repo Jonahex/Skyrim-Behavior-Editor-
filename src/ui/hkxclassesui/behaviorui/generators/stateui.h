@@ -33,7 +33,7 @@ public:
     ~StateUI() = default;
 public:
     void loadData(HkxObject *data, int stateindex);
-    void connectToTables(GenericTableWidget *generators, GenericTableWidget* variables, GenericTableWidget* properties, GenericTableWidget *events);
+    void connectToTables(GenericTableWidget *generators, GenericTableWidget* variables, GenericTableWidget* properties, GenericTableWidget *events, GenericTableWidget* transitionEffects);
     void eventRenamed(const QString & name, int index);
     void setBehaviorView(BehaviorGraphView *view);
     void generatorRenamed(const QString & name, int index);
@@ -47,6 +47,7 @@ signals:
     void viewVariables(int index, const QString & typeallowed, const QStringList &typesdisallowed);
     void viewProperties(int index, const QString & typeallowed, const QStringList &typesdisallowed);
     void viewEvents(int index, const QString & typeallowed, const QStringList &typesdisallowed);
+    void viewTransitions(int index, const QString& typeallowed, const QStringList& typesdisallowed);
 private slots:
     void setName(const QString &newname);
     void setStateId(int id);
@@ -58,6 +59,7 @@ private slots:
     void transitionRenamed(const QString &name, int index);
     void generatorTableElementSelected(int index, const QString &name);
     void variableTableElementSelected(int index, const QString& name);
+    void transitionEffectsTableElementSelected(int index, const QString& name);
 private:
     void toggleSignals(bool toggleconnections);
     void removeEvent(HkxSharedPtr & eventarray, int index);

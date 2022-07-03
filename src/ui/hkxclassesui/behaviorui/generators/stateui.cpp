@@ -123,6 +123,7 @@ void StateUI::toggleSignals(bool toggleconnections){
         connect(transitionUI, SIGNAL(viewProperties(int,QString,QStringList)), this, SIGNAL(viewProperties(int,QString,QStringList)), Qt::UniqueConnection);
         connect(transitionUI, SIGNAL(returnToParent()), this, SLOT(returnToWidget()), Qt::UniqueConnection);
         connect(transitionUI, SIGNAL(transitionNameChanged(QString,int)), this, SLOT(transitionRenamed(QString,int)), Qt::UniqueConnection);
+        connect(transitionUI, &TransitionsUI::viewTransitions, this, &StateUI::viewTransitions, Qt::UniqueConnection);
     }else{
         disconnect(returnPB, SIGNAL(clicked(bool)), this, SIGNAL(returnToParent(bool)));
         disconnect(name, SIGNAL(textEdited(QString)), this, SLOT(setName(QString)));
@@ -137,6 +138,7 @@ void StateUI::toggleSignals(bool toggleconnections){
         disconnect(transitionUI, SIGNAL(viewProperties(int,QString,QStringList)), this, SIGNAL(viewProperties(int,QString,QStringList)));
         disconnect(transitionUI, SIGNAL(returnToParent()), this, SLOT(returnToWidget()));
         disconnect(transitionUI, SIGNAL(transitionNameChanged(QString,int)), this, SLOT(transitionRenamed(QString,int)));
+        disconnect(transitionUI, &TransitionsUI::viewTransitions, this, &StateUI::viewTransitions);
     }
 }
 
@@ -150,6 +152,15 @@ void StateUI::variableTableElementSelected(int index, const QString &name){
         }
     }else{
         LogFile::writeToLog("StateUI::variableTableElementSelected(): The data is nullptr!!");
+    }
+}
+
+void StateUI::transitionEffectsTableElementSelected(int index, const QString& name) {
+    switch (currentIndex()) {
+    case TRANSITION_WIDGET:
+        transitionUI->transitionEffectsTableElementSelected(index, name); break;
+    default:
+        WARNING_MESSAGE("StateMachineUI::transitionEffectsTableElementSelected(): An unwanted element selected event was recieved!!");
     }
 }
 
@@ -254,20 +265,29 @@ void StateUI::generatorTableElementSelected(int index, const QString &name){
     }
 }
 
-void StateUI::connectToTables(GenericTableWidget *generators, GenericTableWidget* variables, GenericTableWidget* properties, GenericTableWidget *events){
+void StateUI::connectToTables(GenericTableWidget *generators, GenericTableWidget* variables, GenericTableWidget* properties, GenericTableWidget *events, GenericTableWidget* transitionEffects){
     if (generators && events){
         disconnect(events, SIGNAL(elementSelected(int,QString)), 0, 0);
         disconnect(generators, SIGNAL(elementSelected(int,QString)), 0, 0);
         disconnect(variables, SIGNAL(elementSelected(int, QString)), 0, 0);
         disconnect(properties, SIGNAL(elementSelected(int, QString)), 0, 0);
+        disconnect(transitionEffects, SIGNAL(elementSelected(int, QString)), 0, 0);
         connect(events, SIGNAL(elementSelected(int,QString)), this, SLOT(eventTableElementSelected(int,QString)), Qt::UniqueConnection);
         connect(generators, SIGNAL(elementSelected(int,QString)), this, SLOT(generatorTableElementSelected(int,QString)), Qt::UniqueConnection);
         connect(variables, SIGNAL(elementSelected(int, QString)), this, SLOT(variableTableElementSelected(int, QString)), Qt::UniqueConnection);
         connect(properties, SIGNAL(elementSelected(int, QString)), this, SLOT(variableTableElementSelected(int, QString)), Qt::UniqueConnection);
+        connect(transitionEffects, SIGNAL(elementSelected(int, QString)), this, SLOT(transitionEffectsTableElementSelected(int, QString)), Qt::UniqueConnection);
         connect(this, SIGNAL(viewGenerators(int,QString,QStringList)), generators, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
         connect(this, SIGNAL(viewEvents(int,QString,QStringList)), events, SLOT(showTable(int,QString,QStringList)), Qt::UniqueConnection);
         connect(this, SIGNAL(viewProperties(int, QString, QStringList)), variables, SLOT(showTable(int, QString, QStringList)), Qt::UniqueConnection);
         connect(this, SIGNAL(viewVariables(int, QString, QStringList)), properties, SLOT(showTable(int, QString, QStringList)), Qt::UniqueConnection);
+        connect(this, &StateUI::viewTransitions, transitionEffects, 
+            [transitionEffects, this](int index, const QString& typeallowed, const QStringList& typesdisallowed)
+            {
+                transitionEffects->loadTable(behaviorView->getBehavior()->getTransitionEffectNames(), behaviorView->getBehavior()->getTransitionEffectTypeNames(), "New...");
+                transitionEffects->showTable(index, typeallowed, typesdisallowed);
+            }, 
+            Qt::UniqueConnection);
     }else{
         LogFile::writeToLog("StateUI::connectToTables(): One or more arguments are nullptr!!");
     }

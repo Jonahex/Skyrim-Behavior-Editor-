@@ -194,12 +194,13 @@ private:
         EVENTS_FROM_RANGE_MODIFIER
     };
 private:
-    template<typename UIWidget>
-    void changeWidget(HkDataUI::DATA_TYPE_LOADED type, HkxObject *olddata, UIWidget *uiwidget, GenericTableWidget *table1, GenericTableWidget *table2);
-    template<typename UIWidget>
-    void changeWidget(HkDataUI::DATA_TYPE_LOADED type, HkxObject *olddata, UIWidget *uiwidget, GenericTableWidget *table1, GenericTableWidget *table2, GenericTableWidget *table3);
-    template<typename UIWidget>
-    void changeWidget(HkDataUI::DATA_TYPE_LOADED type, HkxObject *olddata, UIWidget *uiwidget, GenericTableWidget *table1, GenericTableWidget *table2, GenericTableWidget *table3, GenericTableWidget *table4);
+    template<typename UIWidget, typename... TableTypes>
+    void changeWidget(HkDataUI::DATA_TYPE_LOADED type, HkxObject *olddata, UIWidget *uiwidget, TableTypes*... tables)
+    {
+        (loadedData != olddata) ? uiwidget->loadData(loadedData) : NULL;
+        stack->setCurrentIndex(type);
+        uiwidget->connectToTables(tables...);
+    }
 private:
     static const QStringList generatorTypes;
     static const QStringList modifierTypes;
@@ -218,6 +219,7 @@ private:
     GenericTableWidget *characterPropertiesTable;
     GenericTableWidget *animationsTable;
     GenericTableWidget *ragdollBonesTable;
+    GenericTableWidget* transitionEffectsTable;
     QLabel *noDataL;
     BSiStateTaggingGeneratorUI *iStateTagGenUI;
     ModifierGeneratorUI *modGenUI;

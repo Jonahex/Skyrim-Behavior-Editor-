@@ -1723,6 +1723,49 @@ QStringList BehaviorFile::getModifierTypeNames() const{
     return list;
 }
 
+QStringList BehaviorFile::getTransitionEffectNames() const
+{
+    QStringList list;
+    for (auto i = 0; i < otherTypes.size(); i++) 
+    {
+        if (otherTypes.at(i).constData()->getSignature() == HKB_BLENDING_TRANSITION_EFFECT)
+        {
+            list.append(static_cast<const hkbBlendingTransitionEffect*>(otherTypes.at(i).constData())->getName());
+        }
+    }
+    return list;
+}
+
+QStringList BehaviorFile::getTransitionEffectTypeNames() const {
+    QStringList list;
+    for (auto i = 0; i < otherTypes.size(); i++)
+    {
+        if (otherTypes.at(i).constData()->getSignature() == HKB_BLENDING_TRANSITION_EFFECT)
+        {
+            list.append(static_cast<hkbBlendingTransitionEffect*>(otherTypes.at(i).data())->getClassname());
+        }
+    }
+    return list;
+}
+
+hkbBlendingTransitionEffect* BehaviorFile::getTransitionEffectAt(int index) const
+{
+    QStringList list;
+    int currentIndex = 0;
+    for (auto i = 0; i < otherTypes.size(); i++)
+    {
+        if (otherTypes.at(i).constData()->getSignature() == HKB_BLENDING_TRANSITION_EFFECT)
+        {
+            if (currentIndex == index)
+            {
+                return static_cast<hkbBlendingTransitionEffect*>(otherTypes.at(i).data());
+            }
+            currentIndex++;
+        }
+    }
+    return nullptr;
+}
+
 int BehaviorFile::getCharacterPropertyIndexFromBehavior(const QString &name) const{
     //std::lock_guard <std::mutex> guard(mutex);
     if (stringData.data()){
