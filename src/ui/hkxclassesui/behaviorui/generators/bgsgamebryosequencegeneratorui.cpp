@@ -9,12 +9,12 @@
 
 #include <QHeaderView>
 
-#define BASE_NUMBER_OF_ROWS 2
+#define BASE_NUMBER_OF_ROWS 4
 
 #define NAME_ROW 0
 #define SEQUENCE_ROW 1
-#define BLEND_MODE_FUNCTION_ROW 1
-#define PERCENT_ROW 1
+#define BLEND_MODE_FUNCTION_ROW 2
+#define PERCENT_ROW 3
 
 #define NAME_COLUMN 0
 #define TYPE_COLUMN 1
@@ -56,17 +56,21 @@ BGSGamebryoSequenceGeneratorUI::BGSGamebryoSequenceGeneratorUI()
     toggleSignals(true);
 }
 
-void BGSGamebryoSequenceGeneratorUI::toggleSignals(bool toggleconnections){
-    if (toggleconnections){
-        connect(name, SIGNAL(textEdited(QString)), this, SLOT(setName(QString)), Qt::UniqueConnection);
-        connect(pSequence, SIGNAL(textEdited(QString)), this, SLOT(setSequence(QString)), Qt::UniqueConnection);
-        connect(eBlendModeFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(setBlendModeFunction(int)), Qt::UniqueConnection);
-        connect(fPercent, SIGNAL(editingFinished()), this, SLOT(setPercent()), Qt::UniqueConnection);
-    }else{
-        disconnect(name, SIGNAL(textEdited(QString)), this, SLOT(setName(QString)));
-        disconnect(pSequence, SIGNAL(textEdited(QString)), this, SLOT(setSequence()));
-        disconnect(eBlendModeFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(setBlendModeFunction(int)));
-        disconnect(fPercent, SIGNAL(editingFinished()), this, SLOT(setPercent()));
+void BGSGamebryoSequenceGeneratorUI::toggleSignals(bool toggleconnections)
+{
+    if (toggleconnections)
+    {
+        connect(name, &LineEdit::textEdited, this, &BGSGamebryoSequenceGeneratorUI::setName, Qt::UniqueConnection);
+        connect(pSequence, &LineEdit::textEdited, this, &BGSGamebryoSequenceGeneratorUI::setSequence, Qt::UniqueConnection);
+        connect(eBlendModeFunction, static_cast<void (ComboBox::*)(int)>(&ComboBox::currentIndexChanged), this, &BGSGamebryoSequenceGeneratorUI::setBlendModeFunction, Qt::UniqueConnection);
+        connect(fPercent, &DoubleSpinBox::editingFinished, this, &BGSGamebryoSequenceGeneratorUI::setPercent, Qt::UniqueConnection);
+    }
+	else
+    {
+        disconnect(name, &LineEdit::textEdited, this, &BGSGamebryoSequenceGeneratorUI::setName);
+        disconnect(pSequence, &LineEdit::textEdited, this, &BGSGamebryoSequenceGeneratorUI::setSequence);
+        disconnect(eBlendModeFunction, static_cast<void (ComboBox::*)(int)>(&ComboBox::currentIndexChanged), this, &BGSGamebryoSequenceGeneratorUI::setBlendModeFunction);
+        disconnect(fPercent, &DoubleSpinBox::editingFinished, this, &BGSGamebryoSequenceGeneratorUI::setPercent);
     }
 }
 
