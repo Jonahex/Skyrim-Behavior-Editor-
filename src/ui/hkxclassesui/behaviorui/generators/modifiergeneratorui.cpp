@@ -90,8 +90,8 @@ void ModifierGeneratorUI::loadData(HkxObject *data){
         if (data->getSignature() == HKB_MODIFIER_GENERATOR){
             bsData = static_cast<hkbModifierGenerator *>(data);
             name->setText(bsData->getName());
-            table->item(MODIFIER_ROW, VALUE_COLUMN)->setText(bsData->getGeneratorName());
-            table->item(GENERATOR_ROW, VALUE_COLUMN)->setText(bsData->getModifierName());
+            table->item(MODIFIER_ROW, VALUE_COLUMN)->setText(bsData->getModifierName());
+            table->item(GENERATOR_ROW, VALUE_COLUMN)->setText(bsData->getGeneratorName());
         }else{
             LogFile::writeToLog(QString("ModifierGeneratorUI::loadData(): The data passed to the UI is the wrong type!\nSIGNATURE: "+QString::number(data->getSignature(), 16)).toLocal8Bit().data());
         }
