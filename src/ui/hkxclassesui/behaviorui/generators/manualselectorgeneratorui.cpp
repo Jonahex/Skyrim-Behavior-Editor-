@@ -205,17 +205,20 @@ void ManualSelectorGeneratorUI::variableRenamed(const QString &name, int index){
 }
 
 void ManualSelectorGeneratorUI::generatorRenamed(const QString &name, int index){
-    auto generatorIndex = table->currentRow() - BASE_NUMBER_OF_ROWS;
-    if (bsData){
-        if (generatorIndex >= 0 && generatorIndex < bsData->generators.size()){
-            index--;
-            if (index == static_cast<BehaviorFile *>(bsData->getParentFile())->getIndexOfGenerator(bsData->generators.at(generatorIndex))){
-                table->item(table->currentRow(), VALUE_COLUMN)->setText(name);
+    --index;
+    if (bsData)
+    {
+        for (int generatorIndex = 0; generatorIndex < bsData->generators.size(); ++generatorIndex)
+        {
+            if (index == static_cast<BehaviorFile*>(bsData->getParentFile())->getIndexOfGenerator(bsData->generators.at(generatorIndex))) 
+            {
+                table->item(BASE_NUMBER_OF_ROWS + generatorIndex, VALUE_COLUMN)->setText(name);
             }
-        }else{
-            WARNING_MESSAGE("ManualSelectorGeneratorUI::generatorRenamed(): Invalid generator index selected!!");
         }
-    }else{
+
+    }
+	else
+    {
         LogFile::writeToLog("ManualSelectorGeneratorUI::generatorRenamed(): The 'bsData' pointer is nullptr!!");
     }
 }
