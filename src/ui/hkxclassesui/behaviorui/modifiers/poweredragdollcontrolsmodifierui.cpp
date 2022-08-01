@@ -135,11 +135,11 @@ void PoweredRagdollControlsModifierUI::toggleSignals(bool toggleconnections){
         connect(maxForce, SIGNAL(editingFinished()), this, SLOT(setMaxForce()), Qt::UniqueConnection);
         connect(tau, SIGNAL(editingFinished()), this, SLOT(setTau()), Qt::UniqueConnection);
         connect(damping, SIGNAL(editingFinished()), this, SLOT(setDamping()), Qt::UniqueConnection);
-        connect(proportionalRecoveryVelocity, SIGNAL(released()), this, SLOT(setProportionalRecoveryVelocity()), Qt::UniqueConnection);
-        connect(constantRecoveryVelocity, SIGNAL(released()), this, SLOT(setConstantRecoveryVelocity()), Qt::UniqueConnection);
-        connect(poseMatchingBone0, SIGNAL(editingFinished()), this, SLOT(setPoseMatchingBone0()), Qt::UniqueConnection);
-        connect(poseMatchingBone1, SIGNAL(editingFinished()), this, SLOT(setPoseMatchingBone1()), Qt::UniqueConnection);
-        connect(poseMatchingBone2, SIGNAL(editingFinished()), this, SLOT(setPoseMatchingBone2()), Qt::UniqueConnection);
+        connect(proportionalRecoveryVelocity, SIGNAL(editingFinished()), this, SLOT(setProportionalRecoveryVelocity()), Qt::UniqueConnection);
+        connect(constantRecoveryVelocity, SIGNAL(editingFinished()), this, SLOT(setConstantRecoveryVelocity()), Qt::UniqueConnection);
+        connect(poseMatchingBone0, SIGNAL(currentIndexChanged(int)), this, SLOT(setPoseMatchingBone0(int)), Qt::UniqueConnection);
+        connect(poseMatchingBone1, SIGNAL(currentIndexChanged(int)), this, SLOT(setPoseMatchingBone1(int)), Qt::UniqueConnection);
+        connect(poseMatchingBone2, SIGNAL(currentIndexChanged(int)), this, SLOT(setPoseMatchingBone2(int)), Qt::UniqueConnection);
         connect(mode, SIGNAL(currentIndexChanged(int)), this, SLOT(setMode(int)), Qt::UniqueConnection);
         connect(bones, SIGNAL(pressed()), this, SLOT(viewBones()), Qt::UniqueConnection);
         connect(bones, SIGNAL(enabled(bool)), this, SLOT(toggleBones(bool)), Qt::UniqueConnection);
@@ -154,11 +154,11 @@ void PoweredRagdollControlsModifierUI::toggleSignals(bool toggleconnections){
         disconnect(maxForce, SIGNAL(editingFinished()), this, SLOT(setMaxForce()));
         disconnect(tau, SIGNAL(editingFinished()), this, SLOT(setTau()));
         disconnect(damping, SIGNAL(editingFinished()), this, SLOT(setDamping()));
-        disconnect(proportionalRecoveryVelocity, SIGNAL(released()), this, SLOT(setProportionalRecoveryVelocity()));
-        disconnect(constantRecoveryVelocity, SIGNAL(released()), this, SLOT(setConstantRecoveryVelocity()));
-        disconnect(poseMatchingBone0, SIGNAL(editingFinished()), this, SLOT(setPoseMatchingBone0()));
-        disconnect(poseMatchingBone1, SIGNAL(editingFinished()), this, SLOT(setPoseMatchingBone1()));
-        disconnect(poseMatchingBone2, SIGNAL(editingFinished()), this, SLOT(setPoseMatchingBone2()));
+        disconnect(proportionalRecoveryVelocity, SIGNAL(editingFinished()), this, SLOT(setProportionalRecoveryVelocity()));
+        disconnect(constantRecoveryVelocity, SIGNAL(editingFinished()), this, SLOT(setConstantRecoveryVelocity()));
+        disconnect(poseMatchingBone0, SIGNAL(currentIndexChanged(int)), this, SLOT(setPoseMatchingBone0(int)));
+        disconnect(poseMatchingBone1, SIGNAL(currentIndexChanged(int)), this, SLOT(setPoseMatchingBone1(int)));
+        disconnect(poseMatchingBone2, SIGNAL(currentIndexChanged(int)), this, SLOT(setPoseMatchingBone2(int)));
         disconnect(mode, SIGNAL(currentIndexChanged(int)), this, SLOT(setMode(int)));
         disconnect(bones, SIGNAL(pressed()), this, SLOT(viewBones()));
         disconnect(bones, SIGNAL(enabled(bool)), this, SLOT(toggleBones(bool)));
@@ -268,19 +268,19 @@ void PoweredRagdollControlsModifierUI::setConstantRecoveryVelocity(){
 }
 
 void PoweredRagdollControlsModifierUI::setPoseMatchingBone0(int index){
-    (bsData) ? bsData->setPoseMatchingBone0(index - 1) : LogFile::writeToLog("DetectCloseToGroundModifierUI::setPoseMatchingBone0(): The 'bsData' pointer is nullptr!!");
+    (bsData) ? bsData->setPoseMatchingBone0(index - 1) : LogFile::writeToLog("PoweredRagdollControlsModifierUI::setPoseMatchingBone0(): The 'bsData' pointer is nullptr!!");
 }
 
 void PoweredRagdollControlsModifierUI::setPoseMatchingBone1(int index){
-    (bsData) ? bsData->setPoseMatchingBone1(index - 1) : LogFile::writeToLog("DetectCloseToGroundModifierUI::setPoseMatchingBone1(): The 'bsData' pointer is nullptr!!");
+    (bsData) ? bsData->setPoseMatchingBone1(index - 1) : LogFile::writeToLog("PoweredRagdollControlsModifierUI::setPoseMatchingBone1(): The 'bsData' pointer is nullptr!!");
 }
 
 void PoweredRagdollControlsModifierUI::setPoseMatchingBone2(int index){
-    (bsData) ? bsData->setPoseMatchingBone2(index - 1) : LogFile::writeToLog("DetectCloseToGroundModifierUI::setPoseMatchingBone2(): The 'bsData' pointer is nullptr!!");
+    (bsData) ? bsData->setPoseMatchingBone2(index - 1) : LogFile::writeToLog("PoweredRagdollControlsModifierUI::setPoseMatchingBone2(): The 'bsData' pointer is nullptr!!");
 }
 
 void PoweredRagdollControlsModifierUI::setMode(int index){
-    (bsData) ? bsData->setMode(index) : LogFile::writeToLog("DetectCloseToGroundModifierUI::setMode(): The 'bsData' pointer is nullptr!!");
+    (bsData) ? bsData->setMode(index) : LogFile::writeToLog("PoweredRagdollControlsModifierUI::setMode(): The 'bsData' pointer is nullptr!!");
 }
 
 void PoweredRagdollControlsModifierUI::toggleBones(bool enable){

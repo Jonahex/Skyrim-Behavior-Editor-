@@ -46,15 +46,12 @@ QStringList SkeletonFile::getBonesFromSkeletonAt(int index) const{
 
 int SkeletonFile::getNumberOfBones(bool ragdoll) const{
     //std::lock_guard <std::mutex> guard(mutex);
-    if (!skeletons.isEmpty()){
-        if (!ragdoll){
-            if (skeletons.first().data()){
-                return static_cast<hkaSkeleton *>(skeletons.first().data())->bones.size();
-            }
-        }else{
-            if (skeletons.size() > 1 && skeletons.at(1).data()){
-                return static_cast<hkaSkeleton *>(skeletons.at(1).data())->bones.size();
-            }
+    if (!skeletons.isEmpty())
+    {
+        const int skeletonIndex = ragdoll ? getRagdollSkeletonIndex() : getRigSkeletonIndex();
+        if (hkaSkeleton* data = static_cast<hkaSkeleton*>(skeletons[skeletonIndex].data()))
+        {
+            return data->bones.size();
         }
     }
     return -1;
@@ -105,15 +102,12 @@ int SkeletonFile::getRigSkeletonIndex() const
 
 hkaSkeleton *SkeletonFile::getSkeleton(bool isragdoll) const{
     //std::lock_guard <std::mutex> guard(mutex);
-    if (!skeletons.isEmpty()){
-        if (!isragdoll){
-            if (skeletons.first().data()){
-                return static_cast<hkaSkeleton *>(skeletons.first().data());
-            }
-        }else{
-            if (skeletons.size() > 1 && skeletons.at(1).data()){
-                return static_cast<hkaSkeleton *>(skeletons.at(1).data());
-            }
+    if (!skeletons.isEmpty())
+    {
+        const int skeletonIndex = isragdoll ? getRagdollSkeletonIndex() : getRigSkeletonIndex();
+        if (hkaSkeleton* data = static_cast<hkaSkeleton*>(skeletons[skeletonIndex].data()))
+        {
+            return data;
         }
     }
     return nullptr;

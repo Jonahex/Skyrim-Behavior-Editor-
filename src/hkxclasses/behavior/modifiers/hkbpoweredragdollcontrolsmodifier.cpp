@@ -356,7 +356,7 @@ QString hkbPoweredRagdollControlsModifier::evaluateDataValidity(){
     QString errors;
     auto isvalid = true;
     auto checkbones = [&](int & boneindex, const QString & fieldname){
-        if (boneindex >= static_cast<BehaviorFile *>(getParentFile())->getNumberOfEvents()){
+        if (boneindex >= static_cast<BehaviorFile *>(getParentFile())->getNumberOfBones(true)){
             isvalid = false;
             errors.append(getParentFilename()+": "+getClassname()+": Ref: "+getReferenceString()+": "+name+": "+fieldname+" bone id out of range! Setting to max index in range!");
             boneindex = static_cast<BehaviorFile *>(getParentFile())->getNumberOfBones(true) - 1;
