@@ -134,7 +134,7 @@ bool hkbClipGenerator::write(HkxXMLWriter *writer){
         writeref(getVariableBindingSet(), "variableBindingSet");
         writedatafield("userData", QString::number(userData), false);
         writedatafield("name", name, false);
-        writedatafield("animationName", animationName, false);
+        writedatafield("animationName", animationName, true);
         writeref(triggers, "triggers");
         writedatafield("cropStartAmountLocalTime", QString::number(cropStartAmountLocalTime, char('f'), 6), false);
         writedatafield("cropEndAmountLocalTime", QString::number(cropEndAmountLocalTime, char('f'), 6), false);
