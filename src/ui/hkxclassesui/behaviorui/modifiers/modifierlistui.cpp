@@ -325,7 +325,7 @@ void ModifierListUI::setModifier(int index, const QString &name){
     auto modifierIndex = table->currentRow() - BASE_NUMBER_OF_ROWS;
     if (bsData){
         if (modifierIndex >= 0 && modifierIndex < bsData->getNumberOfModifiers()){
-            UIHelper::setModifier(index, name, bsData, bsData->getModifierAt(modifierIndex), NULL_SIGNATURE, HkxObject::TYPE_MODIFIER, table, behaviorView, modifierIndex, VALUE_COLUMN);
+            UIHelper::setModifier(index, name, bsData, bsData->getModifierAt(modifierIndex), NULL_SIGNATURE, HkxObject::TYPE_MODIFIER, table, behaviorView, table->currentRow(), NAME_COLUMN);
         }else{
             LogFile::writeToLog("ModifierListUI::setModifier(): Invalid modifier index selected!!");
         }

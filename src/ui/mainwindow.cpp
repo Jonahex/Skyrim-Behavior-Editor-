@@ -1203,7 +1203,7 @@ bool MainWindow::convertProject(const QString &filepath, const QString &newpath,
         QDirIterator it(filepath.section("/", 0, -2), QDirIterator::Subdirectories);
         while (it.hasNext()){
             auto temp = it.next();
-            if (temp.contains(".hkx") && !temp.contains("/animations/", Qt::CaseInsensitive) && !temp.contains("/_1stperson/", Qt::CaseInsensitive)){
+            if (temp.contains(".hkx") && !temp.contains("/animations/", Qt::CaseInsensitive)){
                 filelist.append(temp);
             }
         }
@@ -1265,7 +1265,7 @@ bool MainWindow::convertProject(const QString &filepath, const QString &newpath,
                 QDirIterator it(filepath.section("/", 0, -2), QDirIterator::Subdirectories);
                 while (it.hasNext()){
                     auto temp = it.next();
-                    if (temp.contains(".hkx") && !temp.contains("/animations/", Qt::CaseInsensitive) && !temp.contains("/_1stperson/", Qt::CaseInsensitive)){
+                    if (temp.contains(".hkx") && !temp.contains("/animations/", Qt::CaseInsensitive)){
                         if (!QDir(temp).remove(temp)){
                             LogFile::writeToLog(QString("MainWindow::convertProject(): The file "+temp+" could not be removed!!!").toLocal8Bit().data());
                         }

@@ -395,7 +395,7 @@ void setModifier(int index, const QString &name, DataIconManager *dynobj, hkbMod
                         LogFile::writeToLog("setModifier():The name of the selected object does not match it's name in the object selection table!!!");
                     }else if ((signature == NULL_SIGNATURE && signature != sig) || (type != HkxObject::TYPE_MODIFIER)){
                         WARNING_MESSAGE("I'M SORRY HAL BUT I CAN'T LET YOU DO THAT.\nThe selected object is an incorrect type!!!");
-                    }else if (ptr == dynobj || !behaviorView->reconnectIcon(behaviorView->getSelectedItem(), static_cast<DataIconManager*>(child), 0, ptr, false)){
+                    }else if (ptr == dynobj || !behaviorView->reconnectIcon(behaviorView->getSelectedItem(), static_cast<DataIconManager*>(child), indexofmodifier, ptr, false)){
                         WARNING_MESSAGE("I'M SORRY HAL BUT I CAN'T LET YOU DO THAT.\nYou are attempting to create a circular branch or dead end!!!");
                     }
                 }else{

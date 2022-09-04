@@ -49,6 +49,10 @@ int SkeletonFile::getNumberOfBones(bool ragdoll) const{
     if (!skeletons.isEmpty())
     {
         const int skeletonIndex = ragdoll ? getRagdollSkeletonIndex() : getRigSkeletonIndex();
+        if (skeletonIndex < 0)
+        {
+            return -1;
+        }
         if (hkaSkeleton* data = static_cast<hkaSkeleton*>(skeletons[skeletonIndex].data()))
         {
             return data->bones.size();
