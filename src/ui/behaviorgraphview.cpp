@@ -793,7 +793,17 @@ void BehaviorGraphView::append(T *obj){
                                 newIcon = addItemToGraph(selecteditem, obj, 0);
                             }
                         }
-                    }else{
+                    }
+                    else if (sig == BS_MODIFY_ONCE_MODIFIER)
+                    {
+	                    if (selecteditem->childItems().size() > 1)
+	                    {
+                            removeItemFromGraph(((TreeGraphicsItem*)selecteditem->childItems().first()), 1);
+	                    }
+                        newIcon = addItemToGraph(selecteditem, obj, selecteditem->childItems().size());
+                    }
+                	else
+                    {
                         removeItemFromGraph(((TreeGraphicsItem *)selecteditem->childItems().first()), 0);
                     }
                 }
@@ -913,7 +923,7 @@ void BehaviorGraphView::popUpMenuRequested(const QPoint &pos){
         appendBlenderMenu->menuAction()->setDisabled(true);
         wrapGeneratorMenu->menuAction()->setDisabled(true);
         wrapBlenderMenu->menuAction()->setDisabled(true);
-        if (sig == HKB_MODIFIER_LIST || sig == HKB_EVENT_DRIVEN_MODIFIER){
+        if (sig == HKB_MODIFIER_LIST || sig == HKB_EVENT_DRIVEN_MODIFIER || sig == BS_MODIFY_ONCE_MODIFIER){
             appendModifierMenu->menuAction()->setDisabled(false);
         }else{
             appendModifierMenu->menuAction()->setDisabled(true);

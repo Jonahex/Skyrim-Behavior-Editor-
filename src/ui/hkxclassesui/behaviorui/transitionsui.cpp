@@ -312,7 +312,7 @@ void TransitionsUI::loadData(BehaviorFile *parentfile, hkbStateMachine *parent, 
 
 void TransitionsUI::setId(int index, const QString &name, int & eventid, int row){
     if (bsData){
-        eventid = --index;
+        eventid = index;
         auto item = table->item(row, VALUE_COLUMN);
         if (item){
             item->setText(name);
@@ -384,7 +384,7 @@ void TransitionsUI::setTriggerIntervalExitTime(){
 
 void TransitionsUI::setInitiateIntervalEnterEventId(int index, const QString &name){
     if (bsData){
-        bsData->initiateInterval.enterEventId = --index;
+        bsData->initiateInterval.enterEventId = index;
         table->item(INITIATE_INTERVAL_ENTER_EVENT_ID_ROW, VALUE_COLUMN)->setText(name);
         checkInterval();
         parentObj->setIsFileChanged(true);
@@ -395,7 +395,7 @@ void TransitionsUI::setInitiateIntervalEnterEventId(int index, const QString &na
 
 void TransitionsUI::setInitiateIntervalExitEventId(int index, const QString &name){
     if (bsData){
-        bsData->initiateInterval.exitEventId = --index;
+        bsData->initiateInterval.exitEventId = index;
         table->item(INITIATE_INTERVAL_EXIT_EVENT_ID_ROW, VALUE_COLUMN)->setText(name);
         checkInterval();
         parentObj->setIsFileChanged(true);

@@ -29,7 +29,7 @@ QString BSModifyOnceModifier::getName() const{
 bool BSModifyOnceModifier::insertObjectAt(int index, DataIconManager *obj){
     std::lock_guard <std::mutex> guard(mutex);
     if (obj && obj->getType() == TYPE_MODIFIER){
-        (index == 1) ? pOnDeactivateModifier = HkxSharedPtr(obj): pOnDeactivateModifier = HkxSharedPtr(obj);
+        (index == 1) ? pOnDeactivateModifier = HkxSharedPtr(obj): pOnActivateModifier = HkxSharedPtr(obj);
         return true;
     }
     return false;

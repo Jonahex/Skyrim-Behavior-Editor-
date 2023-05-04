@@ -325,17 +325,17 @@ void BehaviorVariablesUI::addVariable(){
         auto type = typeSelector->currentIndex();
         switch (type){
         case VARIABLE_TYPE_BOOL:
-            addvariable(hkVariableType::VARIABLE_TYPE_BOOL, "VARIABLE_TYPE_BOOL"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_BOOL, "BOOL"); break;
         case VARIABLE_TYPE_INT32:
-            addvariable(hkVariableType::VARIABLE_TYPE_INT32, "VARIABLE_TYPE_INT32"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_INT32, "INT32"); break;
         case VARIABLE_TYPE_REAL:
-            addvariable(hkVariableType::VARIABLE_TYPE_REAL, "VARIABLE_TYPE_REAL"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_REAL, "REAL"); break;
         case VARIABLE_TYPE_POINTER:
-            addvariable(hkVariableType::VARIABLE_TYPE_POINTER, "VARIABLE_TYPE_POINTER"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_POINTER, "POINTER"); break;
         case VARIABLE_TYPE_VECTOR4:
-            addvariable(hkVariableType::VARIABLE_TYPE_VECTOR4, "VARIABLE_TYPE_VECTOR4"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_VECTOR4, "VECTOR4"); break;
         case VARIABLE_TYPE_QUATERNION:
-            addvariable(hkVariableType::VARIABLE_TYPE_QUATERNION, "VARIABLE_TYPE_QUATERNION"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_QUATERNION, "QUATERNION"); break;
         }
     }else{
         LogFile::writeToLog("BehaviorVariablesUI: loadedData is nullptr!!");
