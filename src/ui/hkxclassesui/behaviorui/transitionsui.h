@@ -63,6 +63,7 @@ private slots:
     void toggleDisallowRandomTransitionFlag();
     void toggleDisallowReturnToStateFlag();
     void toggleAbutEndStateFlag();
+    void toggleDisableConditionFlag();
     void returnToWidget();
     void viewSelectedChild(int row, int column);
     void transitionEffectRenamed(const QString & name);
@@ -89,32 +90,33 @@ private:
     };
 private:
     static const QStringList headerLabels;
-    BehaviorFile *file;
-    hkbStateMachine *parentObj;
-    hkbStateMachineTransitionInfoArray::HkTransition *bsData;
+    BehaviorFile* file;
+    hkbStateMachine* parentObj;
+    hkbStateMachineTransitionInfoArray::HkTransition* bsData;
     int transitionIndex;
-    QPushButton *returnPB;
-    QGridLayout *topLyt;
-    QGroupBox *groupBox;
-    TableWidget *table;
-    DoubleSpinBox *enterTimeTI;
-    DoubleSpinBox *exitTimeTI;
-    DoubleSpinBox *enterTimeII;
-    DoubleSpinBox *exitTimeII;
-    CheckButtonCombo *transition;
-    BlendingTransitionEffectUI *transitionUI; //Need Generator transition effect too???
-    ConditionLineEdit *condition;
-    ComboBox *toStateId;
-    ComboBox *fromNestedStateId;
-    ComboBox *toNestedStateId;
-    SpinBox *priority;
-    CheckBox *flagGlobalWildcard;
-    CheckBox *flagLocalWildcard;
-    CheckBox *flagUseNestedState;
-    CheckBox *flagAllowSelfTransition;
-    CheckBox *flagDisallowRandomTransition;
-    CheckBox *flagDisallowReturnToState;
-    CheckBox *flagAbutEndState;
+    QPushButton* returnPB;
+    QGridLayout* topLyt;
+    QGroupBox* groupBox;
+    TableWidget* table;
+    DoubleSpinBox* enterTimeTI;
+    DoubleSpinBox* exitTimeTI;
+    DoubleSpinBox* enterTimeII;
+    DoubleSpinBox* exitTimeII;
+    CheckButtonCombo* transition;
+    BlendingTransitionEffectUI* transitionUI; //Need Generator transition effect too???
+    ConditionLineEdit* condition;
+    ComboBox* toStateId;
+    ComboBox* fromNestedStateId;
+    ComboBox* toNestedStateId;
+    SpinBox* priority;
+    CheckBox* flagGlobalWildcard;
+    CheckBox* flagLocalWildcard;
+    CheckBox* flagUseNestedState;
+    CheckBox* flagAllowSelfTransition;
+    CheckBox* flagDisallowRandomTransition;
+    CheckBox* flagDisallowReturnToState;
+    CheckBox* flagAbutEndState;
+    CheckBox* flagDisableCondition;
 };
 
 #endif // TRANSITIONSUI_H

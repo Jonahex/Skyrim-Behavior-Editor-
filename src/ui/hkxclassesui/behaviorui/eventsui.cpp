@@ -15,7 +15,6 @@
 
 const QStringList EventsUI::headerLabels = {
     "Name",
-    "Type",
     "Value"
 };
 
@@ -42,11 +41,23 @@ EventsUI::EventsUI(const QString &title)
     eventWidget->setCellWidget(0, 0, eventName);
     eventWidget->setCellWidget(0, 1, flag);
     eventWidget->setCellWidget(0, 2, returnPB);
+    eventWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    eventWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
+    eventWidget->setHorizontalHeaderLabels({
+    "Name",
+    "Sync Point",
+    "Return"
+        });
     buttonLyt->addWidget(addObjectPB, 1);
     buttonLyt->addSpacing(2);
     buttonLyt->addWidget(removeObjectPB, 1);
-    table->setColumnCount(3);
-    table->setHorizontalHeaderLabels(headerLabels);
+    table->setColumnCount(2);
+    table->setHorizontalHeaderLabels({
+    "Name",
+    "Value"
+        });
+    table->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
     verLyt->addLayout(buttonLyt, 1);
     verLyt->addLayout(stackLyt, 10);
     setLayout(verLyt);
@@ -59,7 +70,7 @@ EventsUI::EventsUI(const QString &title)
 }
 
 void EventsUI::viewEvent(int row, int column){
-    if (column == 2 && loadedData && loadedData->eventInfos.size() > row){
+    if (column == 1 && loadedData && loadedData->eventInfos.size() > row){
         auto events = static_cast<hkbBehaviorGraphStringData *>(loadedData->stringData.data());
         disconnect(eventName, 0, this, 0);
         disconnect(flag, 0, this, 0);
@@ -109,8 +120,7 @@ void EventsUI::loadData(HkxObject *data){
                 }else{
                     table->setRowCount(row + 1);
                     table->setItem(row, 0, new QTableWidgetItem(eventNames.at(i)));
-                    table->setItem(row, 1, new QTableWidgetItem("hkEvent"));
-                    table->setItem(row, 2, new QTableWidgetItem("Edit"));
+                    table->setItem(row, 1, new QTableWidgetItem("Edit"));
                 }
             }
             for (auto j = eventNames.size(); j < table->rowCount(); j++){
@@ -136,8 +146,7 @@ void EventsUI::addEvent(){
         auto event = loadedData->getEventNames().last();
         table->setRowCount(row + 1);
         table->setItem(row, 0, new QTableWidgetItem(event));
-        table->setItem(row, 1, new QTableWidgetItem("hkEvent"));
-        table->setItem(row, 2, new QTableWidgetItem("Edit"));
+        table->setItem(row, 1, new QTableWidgetItem("Edit"));
         (stackLyt->currentIndex() == EVENT_WIDGET) ? stackLyt->setCurrentIndex(TABLE_WIDGET) : NULL;
         table->setCurrentCell(row, 0);
         emit eventAdded(event);

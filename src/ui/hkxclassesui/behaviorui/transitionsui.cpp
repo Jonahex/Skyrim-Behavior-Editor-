@@ -16,7 +16,7 @@
 
 #include <QHeaderView>
 
-#define BASE_NUMBER_OF_ROWS 22
+#define BASE_NUMBER_OF_ROWS 23
 
 #define TRIGGER_INTERVAL_ENTER_EVENT_ID_ROW 0
 #define TRIGGER_INTERVAL_EXIT_EVENT_ID_ROW 1
@@ -40,6 +40,7 @@
 #define FLAG_DISALLOW_RANDOM_TRANSITION_ROW 19
 #define FLAG_DISALLOW_RETURN_TO_PREVIOUS_STATE_ROW 20
 #define FLAG_ABUT_END_STATE_ROW 21
+#define FLAG_DISABLE_CONDITION 22
 
 #define NAME_COLUMN 0
 #define TYPE_COLUMN 1
@@ -76,7 +77,8 @@ TransitionsUI::TransitionsUI()
       flagAllowSelfTransition(new CheckBox),
       flagDisallowRandomTransition(new CheckBox),
       flagDisallowReturnToState(new CheckBox),
-      flagAbutEndState(new CheckBox)
+      flagAbutEndState(new CheckBox),
+      flagDisableCondition(new CheckBox)
 {
     table->setRowCount(BASE_NUMBER_OF_ROWS);
     table->setColumnCount(headerLabels.size());
@@ -148,6 +150,9 @@ TransitionsUI::TransitionsUI()
     table->setItem(FLAG_ABUT_END_STATE_ROW, NAME_COLUMN, new TableWidgetItem("flagAbutEndState"));
     table->setItem(FLAG_ABUT_END_STATE_ROW, TYPE_COLUMN, new TableWidgetItem("TransitionFlag", Qt::AlignCenter));
     table->setCellWidget(FLAG_ABUT_END_STATE_ROW, VALUE_COLUMN, flagAbutEndState);
+    table->setItem(FLAG_DISABLE_CONDITION, NAME_COLUMN, new TableWidgetItem("flagDisableCondition"));
+    table->setItem(FLAG_DISABLE_CONDITION, TYPE_COLUMN, new TableWidgetItem("TransitionFlag", Qt::AlignCenter));
+    table->setCellWidget(FLAG_DISABLE_CONDITION, VALUE_COLUMN, flagDisableCondition);
     topLyt->addWidget(returnPB, 0, 1, 1, 1);
     topLyt->addWidget(table, 1, 0, 8, 3);
     groupBox->setLayout(topLyt);
@@ -181,6 +186,7 @@ void TransitionsUI::toggleSignals(bool toggleconnections){
         connect(flagDisallowRandomTransition, SIGNAL(released()), this, SLOT(toggleDisallowRandomTransitionFlag()), Qt::UniqueConnection);
         connect(flagDisallowReturnToState, SIGNAL(released()), this, SLOT(toggleDisallowReturnToStateFlag()), Qt::UniqueConnection);
         connect(flagAbutEndState, SIGNAL(released()), this, SLOT(toggleAbutEndStateFlag()), Qt::UniqueConnection);
+        connect(flagDisableCondition, SIGNAL(released()), this, SLOT(toggleDisableConditionFlag()), Qt::UniqueConnection);
         connect(transitionUI, SIGNAL(viewVariables(int,QString,QStringList)), this, SIGNAL(viewVariables(int,QString,QStringList)), Qt::UniqueConnection);
         connect(transitionUI, SIGNAL(viewProperties(int,QString,QStringList)), this, SIGNAL(viewProperties(int,QString,QStringList)), Qt::UniqueConnection);
         connect(transitionUI, SIGNAL(transitionEffectRenamed(QString)), this, SLOT(transitionEffectRenamed(QString)), Qt::UniqueConnection);
@@ -207,6 +213,7 @@ void TransitionsUI::toggleSignals(bool toggleconnections){
         disconnect(flagDisallowRandomTransition, SIGNAL(released()), this, SLOT(toggleDisallowRandomTransitionFlag()));
         disconnect(flagDisallowReturnToState, SIGNAL(released()), this, SLOT(toggleDisallowReturnToStateFlag()));
         disconnect(flagAbutEndState, SIGNAL(released()), this, SLOT(toggleAbutEndStateFlag()));
+        disconnect(flagDisableCondition, SIGNAL(released()), this, SLOT(toggleDisableConditionFlag()));
         disconnect(transitionUI, SIGNAL(viewVariables(int,QString,QStringList)), this, SIGNAL(viewVariables(int,QString,QStringList)));
         disconnect(transitionUI, SIGNAL(viewProperties(int,QString,QStringList)), this, SIGNAL(viewProperties(int,QString,QStringList)));
         disconnect(transitionUI, SIGNAL(transitionEffectRenamed(QString)), this, SLOT(transitionEffectRenamed(QString)));
@@ -266,6 +273,7 @@ void TransitionsUI::loadData(BehaviorFile *parentfile, hkbStateMachine *parent, 
         flagDisallowReturnToState->setChecked(false);
         flagAbutEndState->setChecked(false);
         flagAllowSelfTransition->setChecked(false);
+        flagDisableCondition->setChecked(false);
         toNestedStateId->setDisabled(true);
         if (flags.isEmpty()){
             if (bsData->flags == "FLAG_IS_GLOBAL_WILDCARD"){
@@ -284,6 +292,9 @@ void TransitionsUI::loadData(BehaviorFile *parentfile, hkbStateMachine *parent, 
             }else if (bsData->flags == "FLAG_ABUT_AT_END_OF_FROM_GENERATOR"){
                 flagAbutEndState->setChecked(true);
             }
+            else if (bsData->flags == "FLAG_DISABLE_CONDITION") {
+                flagDisableCondition->setChecked(true);
+            }
         }else{
             for (auto i = 0; i < flags.size(); i++){
                 if (flags.at(i) == "FLAG_IS_GLOBAL_WILDCARD"){
@@ -301,6 +312,9 @@ void TransitionsUI::loadData(BehaviorFile *parentfile, hkbStateMachine *parent, 
                     flagDisallowReturnToState->setChecked(true);
                 }else if (flags.at(i) == "FLAG_ABUT_AT_END_OF_FROM_GENERATOR"){
                     flagAbutEndState->setChecked(true);
+                }
+                else if (flags.at(i) == "FLAG_DISABLE_CONDITION") {
+                    flagDisableCondition->setChecked(true);
                 }
             }
         }
@@ -578,6 +592,10 @@ void TransitionsUI::toggleDisallowReturnToStateFlag(){
 
 void TransitionsUI::toggleAbutEndStateFlag(){
     (bsData) ? toggleFlag(flagAbutEndState, "FLAG_ABUT_AT_END_OF_FROM_GENERATOR") : LogFile::writeToLog("TransitionsUI::toggleAbutEndStateFlag(): The data is nullptr!!");
+}
+
+void TransitionsUI::toggleDisableConditionFlag() {
+    (bsData) ? toggleFlag(flagDisableCondition, "FLAG_DISABLE_CONDITION") : LogFile::writeToLog("TransitionsUI::toggleDisableConditionFlag(): The data is nullptr!!");
 }
 
 void TransitionsUI::eventTableElementSelected(int index, const QString &name){
