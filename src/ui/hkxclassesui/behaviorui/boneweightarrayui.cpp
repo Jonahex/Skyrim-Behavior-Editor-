@@ -49,14 +49,18 @@ void BoneWeightArrayUI::loadData(HkxObject *data, bool isRagdoll){
     if (data && data->getSignature() == HKB_BONE_WEIGHT_ARRAY){
         QStringList boneNames;
         bsData = static_cast<hkbBoneWeightArray *>(data);
-        HkxFile* file = dynamic_cast<BehaviorFile*>(bsData->getParentFile());
-        if (file){
-            (isRagdoll) ? boneNames = static_cast<BehaviorFile *>(file)->getRagdollBoneNames() : boneNames = static_cast<BehaviorFile *>(file)->getRigBoneNames();
-        }else{
-            file = dynamic_cast<CharacterFile *>(bsData->getParentFile());
-            if (file){
-                (isRagdoll) ? boneNames = static_cast<CharacterFile *>(file)->getRagdollBoneNames() : boneNames = static_cast<BehaviorFile *>(file)->getRigBoneNames();
-            }else{
+        if (auto behaviorFile = dynamic_cast<BehaviorFile*>(bsData->getParentFile()))
+        {
+            (isRagdoll) ? boneNames = behaviorFile->getRagdollBoneNames() : boneNames = behaviorFile->getRigBoneNames();
+        }
+        else
+        {
+            if (auto characterFile = dynamic_cast<CharacterFile*>(bsData->getParentFile()))
+            {
+                (isRagdoll) ? boneNames = characterFile->getRagdollBoneNames() : boneNames = characterFile->getRigBoneNames();
+            }
+            else
+            {
                 LogFile::writeToLog("BoneWeightArrayUI::loadData(): Parent file type is unrecognized!!!");
             }
         }

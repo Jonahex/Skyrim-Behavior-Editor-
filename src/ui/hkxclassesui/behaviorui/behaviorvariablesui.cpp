@@ -346,12 +346,12 @@ void BehaviorVariablesUI::removeVariable(){
     if (loadedData){
         disconnect(removeObjectPB, SIGNAL(pressed()), this, SLOT(removeVariable()));
         auto index = table->currentRow();
-        auto message = static_cast<BehaviorFile *>(loadedData->getParentFile())->isVariableReferenced(index);
+        auto message = static_cast<BehaviorFile *>(loadedData->getParentFile())->isVariableReferenced(index, false);
         if (message == ""){
             loadedData->removeVariable(index);
             (index < table->rowCount()) ? table->removeRow(index) : NULL;
             (stackLyt->currentIndex() == VARIABLE_WIDGET) ? stackLyt->setCurrentIndex(TABLE_WIDGET) : NULL;
-            static_cast<BehaviorFile *>(loadedData->getParentFile())->updateVariableIndices(index);
+            static_cast<BehaviorFile *>(loadedData->getParentFile())->updateVariableIndices(index, false);
             emit variableRemoved(index);
             table->setFocus();
         }else{

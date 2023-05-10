@@ -667,14 +667,14 @@ void BehaviorFile::updateEventIndices(int index){
     }
 }
 
-QString BehaviorFile::isVariableReferenced(int variableindex) const{
+QString BehaviorFile::isVariableReferenced(int variableindex, bool isProperty) const{
     //std::lock_guard <std::mutex> guard(mutex);
     int size;
     QString objnames;
     auto stringdata = static_cast<hkbBehaviorGraphStringData *>(stringData.data());
     auto getreferencedvars = [&](const QVector <HkxSharedPtr> & list){
         for (auto i = 0; i < list.size(); i++){
-            if (list.at(i).constData()->isVariableReferenced(variableindex)){
+            if (list.at(i).constData()->isVariableReferenced(variableindex, isProperty)){
                 objnames.append(static_cast<const DataIconManager *>(list.at(i).constData())->getName()+"\n");
             }
             if (objnames.size() > MAX_ERROR_STRING_SIZE){
@@ -689,7 +689,7 @@ QString BehaviorFile::isVariableReferenced(int variableindex) const{
         getreferencedvars(generators);
         getreferencedvars(modifiers);
         for (auto i = 0; i < otherTypes.size(); i++){
-            if (otherTypes.at(i).constData()->getSignature() == HKB_BLENDING_TRANSITION_EFFECT && otherTypes.at(i).constData()->isVariableReferenced(variableindex)){
+            if (otherTypes.at(i).constData()->getSignature() == HKB_BLENDING_TRANSITION_EFFECT && otherTypes.at(i).constData()->isVariableReferenced(variableindex, isProperty)){
                 objnames.append(static_cast<const hkbBlendingTransitionEffect *>(otherTypes.at(i).constData())->getName()+"\n");
             }
             if (objnames.size() > MAX_ERROR_STRING_SIZE){
@@ -706,13 +706,13 @@ QString BehaviorFile::isVariableReferenced(int variableindex) const{
     return "";
 }
 
-void BehaviorFile::updateVariableIndices(int index){
+void BehaviorFile::updateVariableIndices(int index, bool isProperty){
     //std::lock_guard <std::mutex> guard(mutex);
     auto stringdata = static_cast<hkbBehaviorGraphStringData *>(stringData.data());
     if (stringdata && stringdata->getNumberOfVariables() >= index && index > -1){
         for (auto i = 0; i < otherTypes.size(); i++){
             if (otherTypes.at(i)->getSignature() == HKB_VARIABLE_BINDING_SET){
-                static_cast<hkbVariableBindingSet *>(otherTypes.at(i).data())->updateVariableIndices(index);
+                static_cast<hkbVariableBindingSet *>(otherTypes.at(i).data())->updateVariableIndices(index, isProperty);
             }
         }
     }else{

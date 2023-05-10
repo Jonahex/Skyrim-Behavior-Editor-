@@ -56,17 +56,7 @@ HkxObject * hkbCharacterData::getVariantVariable(int index) const{
     //std::lock_guard <std::mutex> guard(mutex);
     hkbVariableValueSet *variableValues = static_cast<hkbVariableValueSet *>(characterPropertyValues.data());
     if (variableValues){
-        if (characterPropertyInfos.size() > index){
-            auto count = -1;
-            for (auto i = 0; i <= index; i++){
-                (characterPropertyInfos.at(i).type == "VARIABLE_TYPE_POINTER") ? count++ : NULL;
-            }
-            if (count != -1){
-                return variableValues->getVariantVariableValueAt(count);
-            }
-        }else{
-            LogFile::writeToLog(getParentFilename()+": "+getClassname()+": Ref: "+getReferenceString()+": getVariantVariable(): Index out of range!");
-        }
+        return variableValues->getVariantVariableValueAt(variableValues->getWordVariableAt(index));
     }else{
         LogFile::writeToLog(getParentFilename()+": "+getClassname()+": Ref: "+getReferenceString()+": characterPropertyValues is nullptr!");
     }
@@ -86,11 +76,19 @@ void hkbCharacterData::addVariable(hkVariableType type, const QString & name){
             index = strData->addCharacterPropertyName(name, &varAdded);
             if (varAdded){
                 characterPropertyInfos.append(varInfo);
-                varData->addWordVariableValue(0);
-                if (type > VARIABLE_TYPE_POINTER){
+                if (type > VARIABLE_TYPE_POINTER)
+                {
+                    varData->addWordVariableValue(varData->quadVariableValues.size());
                     varData->addQuadVariableValue(hkQuadVariable());
-                }else if (type == VARIABLE_TYPE_POINTER){
-                    //varData->variantVariableValues.append(HkxSharedPtr());
+                }
+                else if (type == VARIABLE_TYPE_POINTER)
+                {
+                    varData->addWordVariableValue(varData->quadVariableValues.size());
+                    varData->variantVariableValues.append(HkxSharedPtr());
+                }
+                else
+                {
+                    varData->addWordVariableValue(0);
                 }
             }
         }
@@ -107,7 +105,20 @@ void hkbCharacterData::addVariable(hkVariableType type){
     varInfo.type = Type.at(type);
     if (strData && varData){
         strData->generateAppendCharacterPropertyName(varInfo.type);
-        varData->addWordVariableValue(0);
+        if (type > VARIABLE_TYPE_POINTER)
+        {
+            varData->addWordVariableValue(varData->quadVariableValues.size());
+            varData->addQuadVariableValue(hkQuadVariable());
+        }
+        else if (type == VARIABLE_TYPE_POINTER)
+        {
+            varData->addWordVariableValue(varData->quadVariableValues.size());
+            varData->variantVariableValues.append(HkxSharedPtr());
+        }
+        else
+        {
+            varData->addWordVariableValue(0);
+        }
         characterPropertyInfos.append(varInfo);
     }else{
         LogFile::writeToLog(getParentFilename()+": "+getClassname()+": Ref: "+getReferenceString()+": stringData and/or variableInitialValues are nullptr!");

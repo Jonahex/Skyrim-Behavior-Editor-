@@ -5,6 +5,8 @@
 #include "src/ui/genericdatawidgets.h"
 #include "src/hkxclasses/behavior/generators/hkbgenerator.h"
 #include "src/filetypes/behaviorfile.h"
+#include "src/filetypes/characterfile.h"
+#include "src/filetypes/projectfile.h"
 #include "src/ui/behaviorgraphview.h"
 #include "src/hkxclasses/behavior/generators/bsistatetagginggenerator.h"
 #include "src/hkxclasses/behavior/generators/hkbmodifiergenerator.h"
@@ -294,20 +296,13 @@ void CharacterPropertiesUI::loadData(HkxObject *data){
         header->setSectionResizeMode(QHeaderView::Stretch);
         auto varNames = loadedData->getCharacterPropertyNames();
         auto typeNames = loadedData->getCharacterPropertyTypenames();
-        for (auto i = 0; i < varNames.size(); i++){
-            auto row = table->rowCount();
-            if (table->rowCount() > i){
-                table->setRowHidden(i, false);
-                (table->item(row, 0)) ? table->item(row, 0)->setText(varNames.at(i)) : table->setItem(row, 0, new QTableWidgetItem(varNames.at(i)));
-            }else{
-                table->setRowCount(row + 1);
-                table->setItem(row, 0, new QTableWidgetItem(varNames.at(i)));
-                table->setItem(row, 1, new QTableWidgetItem(typeNames.at(i).section("_", -1, -1)));
-                table->setItem(row, 2, new QTableWidgetItem("Edit"));
-            }
-        }
-        for (auto j = varNames.size(); j < table->rowCount(); j++){
-            table->setRowHidden(j, true);
+        table->setRowCount(0);
+        table->setRowCount(varNames.size());
+        for (auto i = 0; i < varNames.size(); i++)
+        {
+            table->setItem(i, 0, new QTableWidgetItem(varNames.at(i)));
+            table->setItem(i, 1, new QTableWidgetItem(typeNames.at(i).section("_", -1, -1)));
+            table->setItem(i, 2, new QTableWidgetItem("Edit"));
         }
         header->setSectionResizeMode(QHeaderView::Interactive);
     }
@@ -323,46 +318,60 @@ void CharacterPropertiesUI::addVariable(){
         auto type = typeSelector->currentIndex();
         switch (type){
         case VARIABLE_TYPE_BOOL:
-            addvariable(hkVariableType::VARIABLE_TYPE_BOOL, "VARIABLE_TYPE_BOOL"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_BOOL, "BOOL"); break;
         case VARIABLE_TYPE_INT32:
-            addvariable(hkVariableType::VARIABLE_TYPE_INT32, "VARIABLE_TYPE_INT32"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_INT32, "INT32"); break;
         case VARIABLE_TYPE_REAL:
-            addvariable(hkVariableType::VARIABLE_TYPE_REAL, "VARIABLE_TYPE_REAL"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_REAL, "REAL"); break;
         case VARIABLE_TYPE_POINTER:
-            addvariable(hkVariableType::VARIABLE_TYPE_POINTER, "VARIABLE_TYPE_POINTER"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_POINTER, "POINTER"); break;
         case VARIABLE_TYPE_VECTOR4:
-            addvariable(hkVariableType::VARIABLE_TYPE_VECTOR4, "VARIABLE_TYPE_VECTOR4"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_VECTOR4, "VECTOR4"); break;
         case VARIABLE_TYPE_QUATERNION:
-            addvariable(hkVariableType::VARIABLE_TYPE_QUATERNION, "VARIABLE_TYPE_QUATERNION"); break;
+            addvariable(hkVariableType::VARIABLE_TYPE_QUATERNION, "QUATERNION"); break;
         }
     }else{
         LogFile::writeToLog("CharacterPropertiesUI: loadedData is nullptr!!");
     }
 }
 
-void CharacterPropertiesUI::removeVariable(){
-    //TO DO:
-    //Need to check if variable is used in hkbExpressionCondition, hkbExpressionDataArray????
-    //dont allow delection of iState var??
-    //removing vars still bugged...
-    /*if (loadedData){
+void CharacterPropertiesUI::removeVariable()
+{
+    if (loadedData)
+    {
         disconnect(removeObjectPB, SIGNAL(pressed()), this, SLOT(removeVariable()));
         auto index = table->currentRow();
-        auto message = static_cast<BehaviorFile *>(loadedData->getParentFile())->isVariableReferenced(index);
-        if (message == ""){
+        auto characterFile = static_cast<CharacterFile*>(loadedData->getParentFile());
+         
+        QString message;
+        for (auto behaviorFile : characterFile->getProjectFile()->getBehaviorFiles())
+        {
+            message = behaviorFile->isVariableReferenced(index, true);
+            if (!message.isEmpty())
+            {
+                WARNING_MESSAGE(message);
+                break;
+            }
+        }
+        if (message.isEmpty())
+        {
             loadedData->removeVariable(index);
             (index < table->rowCount()) ? table->removeRow(index) : NULL;
             (stackLyt->currentIndex() == VARIABLE_WIDGET) ? stackLyt->setCurrentIndex(TABLE_WIDGET) : NULL;
-            static_cast<BehaviorFile *>(loadedData->getParentFile())->updateVariableIndices(index);
-            emit variableRemoved(index);
+            for (auto behaviorFile : characterFile->getProjectFile()->getBehaviorFiles())
+            {
+                behaviorFile->updateVariableIndices(index, true);
+            }
+            //emit variableRemoved(index);
             table->setFocus();
-        }else{
-            WARNING_MESSAGE(message);
         }
+
         connect(removeObjectPB, SIGNAL(pressed()), this, SLOT(removeVariable()), Qt::UniqueConnection);
-    }else{
+    }
+    else
+    {
         LogFile::writeToLog("CharacterPropertiesUI: loadedData is nullptr!!");
-    }*/
+    }
 }
 
 void CharacterPropertiesUI::setHkDataUI(HkDataUI *ui){

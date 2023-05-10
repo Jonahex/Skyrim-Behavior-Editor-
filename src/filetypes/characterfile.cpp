@@ -522,3 +522,8 @@ CharacterFile::~CharacterFile(){
         delete skeleton;
     }
 }
+
+ProjectFile* CharacterFile::getProjectFile() const
+{
+    return project;
+}

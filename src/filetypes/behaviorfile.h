@@ -64,7 +64,7 @@ public:
     QString isEventReferenced(int eventindex) const;
     QStringList getReferencedBehaviors(const hkbBehaviorReferenceGenerator *gentoignore) const;
     qreal getAnimationDurationFromAnimData(const QString & animationname) const;
-    QString isVariableReferenced(int variableindex) const;
+    QString isVariableReferenced(int variableindex, bool isProperty) const;
     HkxSharedPtr *findHkxObject(long ref);
     HkxSharedPtr * findGenerator(long ref);
     HkxSharedPtr * findModifier(long ref);
@@ -87,10 +87,11 @@ public:
     QVector<int> removeOtherData();
     int addCharacterProperty(int index);
     void updateEventIndices(int index);
-    void updateVariableIndices(int index);
+    void updateVariableIndices(int index, bool isProperty);
     void setFocusGeneratorIcon(int index);
     void setFocusModifierIcon(int index);
     hkbBehaviorGraph * getBehaviorGraph() const;
+    void getCharacterPropertyBoneWeightArray(const QString& name, hkbBoneWeightArray* ptrtosetdata) const;
 private:
     void removeUnreferencedFiles(const hkbBehaviorReferenceGenerator *gentoignore);
     bool removeClipGenFromAnimData(const QString & animationname, const QString &clipname, const QString &variablename = "");
@@ -108,7 +109,6 @@ private:
     bool setGeneratorData(HkxSharedPtr & ptrToSet, int index);
     bool setModifierData(HkxSharedPtr & ptrToSet, int index);
     QStringList getErrors() const;
-    void getCharacterPropertyBoneWeightArray(const QString &name, hkbBoneWeightArray *ptrtosetdata) const;
     bool parse();
     void write();
     void generateDefaultCharacterData();

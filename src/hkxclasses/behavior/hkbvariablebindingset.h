@@ -33,11 +33,11 @@ public:
     hkBinding::BindingType getBindingType(int index) const;
     hkBinding::BindingType getBindingType(const QString & path) const;
     int getNumberOfBindings() const;
-    bool isVariableRefed(int variableindex) const;
+    bool isVariableRefed(int variableindex, bool isProperty) const;
     void removeBinding(const QString & path);
     bool addBinding(const QString & path, int varIndex, hkBinding::BindingType type = hkBinding::BINDING_TYPE_VARIABLE);
     void removeBinding(int varIndex);
-    void updateVariableIndices(int index);
+    void updateVariableIndices(int index, bool isProperty);
     void mergeVariableIndex(int oldindex, int newindex);
     bool merge(HkxObject *recessiveObject);
 private:

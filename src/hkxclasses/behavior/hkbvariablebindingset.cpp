@@ -209,20 +209,20 @@ bool hkbVariableBindingSet::write(HkxXMLWriter *writer){
     return true;
 }
 
-bool hkbVariableBindingSet::isVariableRefed(int variableindex) const{
+bool hkbVariableBindingSet::isVariableRefed(int variableindex, bool isProperty) const{
     std::lock_guard <std::mutex> guard(mutex);
     for (auto i = 0; i < bindings.size(); i++){
-        if (bindings.at(i).variableIndex == variableindex && bindings.at(i).bindingType == hkBinding::BINDING_TYPE_VARIABLE){
+        if (bindings.at(i).variableIndex == variableindex && bindings.at(i).bindingType == (isProperty ? hkBinding::BINDING_TYPE_CHARACTER_PROPERTY : hkBinding::BINDING_TYPE_VARIABLE)){
             return true;
         }
     }
     return false;
 }
 
-void hkbVariableBindingSet::updateVariableIndices(int index){
+void hkbVariableBindingSet::updateVariableIndices(int index, bool isProperty){
     std::lock_guard <std::mutex> guard(mutex);
     for (auto i = 0; i < bindings.size(); i++){
-        if (bindings.at(i).variableIndex > index && bindings.at(i).bindingType == hkBinding::BINDING_TYPE_VARIABLE){
+        if (bindings.at(i).variableIndex > index && (bindings.at(i).bindingType == (isProperty ? hkBinding::BINDING_TYPE_CHARACTER_PROPERTY :  hkBinding::BINDING_TYPE_VARIABLE))){
             bindings[i].variableIndex--;
         }
     }

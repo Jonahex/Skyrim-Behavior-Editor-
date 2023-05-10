@@ -56,6 +56,7 @@ public:
     QStringList getLocalFrameNames() const;
     HkxObject * getCharacterStringData() const;
     hkaSkeleton * getSkeleton(bool isragdoll = false) const;
+    ProjectFile* getProjectFile() const;
 protected:
     bool link();
 private:

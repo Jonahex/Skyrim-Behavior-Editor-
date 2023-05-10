@@ -16,7 +16,7 @@ public:
 public:
     void copyBoneWeights(const hkbBoneWeightArray *other);
 private:
-    void setBoneWeightAt(int index, int value);
+    void setBoneWeightAt(int index, qreal value);
     qreal getBoneWeightAt(int index, bool *ok = nullptr) const;
     int getBoneWeightsSize() const;
     bool readData(const HkxXmlReader & reader, long & index);

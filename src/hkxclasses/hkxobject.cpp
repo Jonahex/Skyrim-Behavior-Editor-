@@ -471,7 +471,7 @@ void HkxObject::mergeEventIndex(int, int){}
 
 bool HkxObject::isEventReferenced(int) const{return false;}
 
-bool HkxObject::isVariableReferenced(int) const{return false;}
+bool HkxObject::isVariableReferenced(int, bool isProperty) const{return false;}
 
 void HkxObject::updateEventIndices(int ){}
 
@@ -567,9 +567,9 @@ void HkDynamicObject::removeBinding(int varIndex){
     }
 }
 
-bool HkDynamicObject::isVariableReferenced(int variableindex) const{
+bool HkDynamicObject::isVariableReferenced(int variableindex, bool isProperty) const{
     std::lock_guard <std::mutex> guard(mutex);
-    if (variableBindingSet.constData() && static_cast<const hkbVariableBindingSet *>(variableBindingSet.constData())->isVariableRefed(variableindex)){
+    if (variableBindingSet.constData() && static_cast<const hkbVariableBindingSet *>(variableBindingSet.constData())->isVariableRefed(variableindex, isProperty)){
         return true;
     }
     return false;

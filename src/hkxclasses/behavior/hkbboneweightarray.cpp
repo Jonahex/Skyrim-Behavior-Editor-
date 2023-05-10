@@ -19,7 +19,7 @@ hkbBoneWeightArray::hkbBoneWeightArray(HkxFile *parent, long ref, int size)
     refCount++;
 }
 
-void hkbBoneWeightArray::setBoneWeightAt(int index, int value){
+void hkbBoneWeightArray::setBoneWeightAt(int index, qreal value){
     std::lock_guard <std::mutex> guard(mutex);
     (index >= 0 && index < boneWeights.size() && value < static_cast<BehaviorFile *>(getParentFile())->getNumberOfBones()) ? boneWeights[index] = value, getParentFile()->setIsChanged(true) : LogFile::writeToLog(getParentFilename()+": "+getClassname()+": failed to set boneWeights!");
 }

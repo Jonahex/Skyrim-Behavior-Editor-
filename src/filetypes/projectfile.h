@@ -51,6 +51,7 @@ public:
     HkxSharedPtr * findProjectStringData(long ref);
     AnimCacheProjectData *getProjectCacheData() const;
     HkxSharedPtr * findProjectData(long ref);
+    const QVector <BehaviorFile*>& getBehaviorFiles() const;
 protected:
     bool parse();
     bool link();

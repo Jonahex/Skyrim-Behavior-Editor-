@@ -819,3 +819,8 @@ ProjectFile::~ProjectFile(){
     (skyrimAnimData) ? delete skyrimAnimData : NULL;
     (skyrimAnimSetData) ? delete skyrimAnimSetData : NULL;
 }
+
+const QVector <BehaviorFile*>& ProjectFile::getBehaviorFiles() const
+{
+    return behaviorFiles;
+}

@@ -143,6 +143,16 @@ void BlenderGeneratorChildUI::setBindingVariable(int index, const QString & name
             bool isProperty;
             (table->item(row, BINDING_COLUMN)->checkState() != Qt::Unchecked) ? isProperty = true : isProperty = false;
             UIHelper::setBinding(index, row, BINDING_COLUMN, name, fieldname, type, isProperty, table, bsData);
+            if (isProperty && row == BONE_WEIGHTS_ROW)
+            {
+                if (auto behaviorFile = dynamic_cast<BehaviorFile*>(bsData->getParentFile()))
+                {
+                    if (auto targetWeights = dynamic_cast<hkbBoneWeightArray*>(bsData->boneWeights.data()))
+                    {
+                        behaviorFile->getCharacterPropertyBoneWeightArray(name, targetWeights);
+                    }
+                }
+            }
         };
         switch (row){
         case BONE_WEIGHTS_ROW:

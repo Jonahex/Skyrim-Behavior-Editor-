@@ -52,7 +52,7 @@ public:
     virtual void unlink();
     virtual bool readData(const HkxXmlReader &, long &);
     virtual bool isEventReferenced(int ) const;
-    virtual bool isVariableReferenced(int ) const;
+    virtual bool isVariableReferenced(int, bool isProperty) const;
     virtual QVector <HkxObject *> getChildrenOtherTypes() const;
 protected:
     HkxObject(HkxFile *parent, long ref = -1);
@@ -122,7 +122,7 @@ public:
     QString evaluateDataValidity();
 protected:
     void unlink();
-    bool isVariableReferenced(int variableindex) const;
+    bool isVariableReferenced(int variableindex, bool isProperty) const;
     bool merge(HkxObject *recessiveObject);
     void setBindingReference(int ref);
     void mergeVariableIndices(int oldindex, int newindex);
