@@ -537,7 +537,7 @@ QStringList BehaviorFile::getAllBehaviorFileNames() const{
     QDirIterator it(QFileInfo(*this).absolutePath()+"/");
     while (it.hasNext()){
         if (QFileInfo(it.next()).fileName().contains(".hkx")){
-            list.append(it.fileInfo().filePath().section("/", -1, -1)/*.replace("/", "\\")*/);
+            list.append(it.fileInfo().filePath().section("/", -2, -1).replace("/", "\\"));
         }
     }
     return list;

@@ -86,11 +86,6 @@ void hkbBehaviorReferenceGenerator::setBehaviorName(const QString &newname){
 
 QString hkbBehaviorReferenceGenerator::getBehaviorName() const{
     std::lock_guard <std::mutex> guard(mutex);
-    if (behaviorName.contains("\\")){
-        return behaviorName.section("\\", -1, -1);
-    }else if (behaviorName.contains("/")){
-        return behaviorName.section("/", -1, -1);
-    }
     LogFile::writeToLog(getParentFilename()+": "+getClassname()+": getBehaviorName()!\nInvalid behaviorName!!!");
     return behaviorName;
 }

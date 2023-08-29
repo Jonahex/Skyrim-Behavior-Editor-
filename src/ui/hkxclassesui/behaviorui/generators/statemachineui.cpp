@@ -19,7 +19,7 @@
 
 #include "src/ui/genericdatawidgets.h"
 
-#define BASE_NUMBER_OF_ROWS 14
+#define BASE_NUMBER_OF_ROWS 15
 
 #define NAME_ROW 0
 #define EVENT_TO_SEND_WHEN_STATE_OR_TRANSITION_CHANGES_ROW 1
@@ -33,8 +33,9 @@
 #define MAX_SIMULTANEOUS_TRANSITIONS_ROW 9
 #define START_STATE_MODE_ROW 10
 #define SELF_TRANSITION_MODE_ROW 11
-#define ADD_STATE_ROW 12
-#define INITIAL_ADD_TRANSITION_ROW 13
+#define IS_ACTIVE_ROW 12
+#define ADD_STATE_ROW 13
+#define INITIAL_ADD_TRANSITION_ROW 14
 
 #define NAME_COLUMN 0
 #define TYPE_COLUMN 1
@@ -147,6 +148,10 @@ StateMachineUI::StateMachineUI()
     table->setItem(SELF_TRANSITION_MODE_ROW, TYPE_COLUMN, new TableWidgetItem("SelfTransitionMode", Qt::AlignCenter));
     table->setItem(SELF_TRANSITION_MODE_ROW, BINDING_COLUMN, new TableWidgetItem("N/A", Qt::AlignCenter));
     table->setCellWidget(SELF_TRANSITION_MODE_ROW, VALUE_COLUMN, selfTransitionMode);
+    table->setItem(IS_ACTIVE_ROW, NAME_COLUMN, new TableWidgetItem("isActive"));
+    table->setItem(IS_ACTIVE_ROW, TYPE_COLUMN, new TableWidgetItem("hkBool", Qt::AlignCenter));
+    table->setItem(IS_ACTIVE_ROW, BINDING_COLUMN, new TableWidgetItem(BINDING_ITEM_LABEL + "NONE", Qt::AlignLeft | Qt::AlignVCenter, QColor(Qt::lightGray), QBrush(Qt::black), VIEW_VARIABLES_TABLE_TIP, true));
+    table->setItem(IS_ACTIVE_ROW, VALUE_COLUMN, new TableWidgetItem("", Qt::AlignCenter, QColor(Qt::lightGray)));
     table->setItem(ADD_STATE_ROW, NAME_COLUMN, new TableWidgetItem("Add State With Generator", Qt::AlignCenter, QColor(Qt::green), QBrush(Qt::black), "Double click to add a new state with a generator of the type specified in the adjacent combo box"));
     table->setCellWidget(ADD_STATE_ROW, TYPE_COLUMN, typeSelectorCB);
     table->setItem(ADD_STATE_ROW, BINDING_COLUMN, new TableWidgetItem("Remove Selected State", Qt::AlignCenter, QColor(Qt::gray), QBrush(Qt::black), "Double click to remove the selected state"));
@@ -235,6 +240,7 @@ void StateMachineUI::loadData(HkxObject *data){
         auto varBind = bsData->getVariableBindingSetData();
         UIHelper::loadBinding(START_STATE_ID_ROW, BINDING_COLUMN, varBind, "startStateId", table, bsData);
         UIHelper::loadBinding(WRAP_AROUND_STATE_ID_ROW, BINDING_COLUMN, varBind, "wrapAroundStateId", table, bsData);
+        UIHelper::loadBinding(IS_ACTIVE_ROW, BINDING_COLUMN, varBind, "isActive", table, bsData);
         auto eventname = static_cast<BehaviorFile *>(bsData->getParentFile())->getEventNameAt(bsData->returnToPreviousStateEventId);
         auto labeleventnamme = [&](int row, const QString & name){
             (name != "") ? table->item(row, VALUE_COLUMN)->setText(name) : table->item(row, VALUE_COLUMN)->setText("None");
@@ -392,6 +398,8 @@ void StateMachineUI::setBindingVariable(int index, const QString & name){
             checkisproperty(SYNC_VARIABLE_INDEX_ROW, "syncVariableIndex", VARIABLE_TYPE_INT32); break;
         case WRAP_AROUND_STATE_ID_ROW:
             checkisproperty(WRAP_AROUND_STATE_ID_ROW, "wrapAroundStateId", VARIABLE_TYPE_BOOL); break;
+        case IS_ACTIVE_ROW:
+            checkisproperty(IS_ACTIVE_ROW, "isActive", VARIABLE_TYPE_BOOL); break;
         }
     }else{
         LogFile::writeToLog("StateMachineUI::setBindingVariable(): The data is nullptr!!");
@@ -471,6 +479,8 @@ void StateMachineUI::viewSelectedChild(int row, int column){
                     checkisproperty(START_STATE_ID_ROW, "startStateId"); break;
                 case WRAP_AROUND_STATE_ID_ROW:
                     checkisproperty(WRAP_AROUND_STATE_ID_ROW, "wrapAroundStateId"); break;
+                case IS_ACTIVE_ROW:
+                    checkisproperty(IS_ACTIVE_ROW, "isActive"); break;
                 }
             }else if (column == VALUE_COLUMN){
                 if (row == EVENT_TO_SEND_WHEN_STATE_OR_TRANSITION_CHANGES_ROW){
@@ -759,6 +769,7 @@ void StateMachineUI::variableRenamed(const QString & name, int index){
                 setname("startStateId", START_STATE_ID_ROW);
                 setname("syncVariableIndex", SYNC_VARIABLE_INDEX_ROW);
                 setname("wrapAroundStateId", WRAP_AROUND_STATE_ID_ROW);
+                setname("isActive", IS_ACTIVE_ROW);
             }
         }
     }else{
